@@ -1,9 +1,10 @@
 INCLUDE "src/utils/constants.asm"
 
 ; External resources from UI module
-IMPORT Tiles8p8
-IMPORT TilesEnd
-IMPORT Map1
+EXPORT Tiles8p8
+EXPORT TilesEnd
+EXPORT Map1
+
 
 EXPORT InitRender
 EXPORT RenderFrame
