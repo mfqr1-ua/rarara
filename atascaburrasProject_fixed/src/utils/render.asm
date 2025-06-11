@@ -17,3 +17,16 @@ switch_on_screen:
     set 7, a
     ld [$FF40], a
     ret
+
+; Initializes tile data and screen settings
+InitRender:
+    ; Placeholder: load tiles, turn on LCD
+    call switch_off_screen
+    call switch_on_screen
+    ret
+
+; Renders the current frame (map and player)
+RenderFrame:
+    call wait_vblank_start
+    ; Placeholder: draw map and sprite here
+    ret

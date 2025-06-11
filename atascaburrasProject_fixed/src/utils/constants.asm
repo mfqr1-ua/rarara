@@ -1,5 +1,12 @@
-
 ; Constants.asm
 DEF rLCDC = $FF40
 DEF rSCX  = $FF43
 DEF rSCY  = $FF42
+DEF rJOYP = $FF00
+
+DEF MAP_WIDTH  = 20
+DEF MAP_HEIGHT = 18
+
+DEF MT_FLOOR = $00
+DEF MT_WALL  = $02
+DEF MT_EXIT  = $04
