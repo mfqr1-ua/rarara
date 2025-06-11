@@ -8,8 +8,6 @@ IMPORT CurrentMapPtr
 IMPORT Map1
 
 InitGameSystem::
-    ; initialize game-related variables
-    ; Set the starting map and player position
     xor a
     ld [MapIndex], a
     ld [PlayerX], a
@@ -19,5 +17,5 @@ InitGameSystem::
     ret
 
 UpdateGameSystem::
-    ; update game state each frame
+    ; placeholder for game logic
     ret

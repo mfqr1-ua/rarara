@@ -7,7 +7,7 @@ EXPORT PlayerX
 EXPORT PlayerY
 EXPORT CurrentMapPtr
 
-MapIndex:      db
-PlayerX:       db
-PlayerY:       db
-CurrentMapPtr: dw
+MapIndex:      db 0
+PlayerX:       db 0
+PlayerY:       db 0
+CurrentMapPtr: dw 0
