@@ -4,6 +4,10 @@ DEF rSCX  = $FF43
 DEF rSCY  = $FF42
 DEF rJOYP = $FF00
 
+; Joypad bits and select mask
+DEF JOY_RIGHT      = $01
+DEF JOY_LEFT       = $02
+DEF JOY_SELECT_DPAD = $20
 DEF MAP_WIDTH  = 20
 DEF MAP_HEIGHT = 18
 
