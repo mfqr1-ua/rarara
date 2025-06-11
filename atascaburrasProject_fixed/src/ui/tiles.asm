@@ -1,5 +1,8 @@
-
 SECTION "Tiles", ROM0
+
+; Make tile graphics accessible from other modules
+EXPORT Tiles8p8
+EXPORT TilesEnd
 
 ; Tiles8p8: 8 tiles con patrones visibles
 Tiles8p8:
@@ -26,13 +29,3 @@ TilesEnd:
 MetatilesIndex::
 ; Metatile 0 - negro sólido
 DB $01,$01,$01,$01
-; Metatile 1 - checker completo
-DB $04,$04,$04,$04
-; Metatile 2 - marco
-DB $05,$05,$05,$05
-; Metatile 3 - diagonales
-DB $06,$06,$06,$06
-; Metatile 4 - checker invertido
-DB $07,$07,$07,$07
-; Metatile 5 - vertical + horizontal cruzados
-DB $02,$03,$03,$02

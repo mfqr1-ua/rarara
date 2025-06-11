@@ -1,5 +1,8 @@
 SECTION "Maps", ROM0
 
+; Export first map so the renderer can load it
+EXPORT Map1
+
 ; Helper macros for rows
 MACRO ROW_WALLS
 REPT 20
@@ -25,86 +28,3 @@ ENDR
 ENDM
 
 ; ----- Map 1 -----
-Map1:
-    ROW_WALLS
-REPT 16
-    ROW_EMPTY
-ENDR
-    ROW_EXIT
-
-; ----- Map 2 -----
-Map2:
-REPT 17
-REPT 10
-    DB MT_WALL
-    DB MT_FLOOR
-ENDR
-ENDR
-REPT 9
-    DB MT_WALL
-    DB MT_FLOOR
-ENDR
-    DB MT_WALL
-    DB MT_EXIT
-
-; ----- Map 3 -----
-Map3:
-REPT 8
-    ROW_WALLS
-    ROW_EMPTY
-ENDR
-    ROW_WALLS
-    ROW_EXIT
-
-; ----- Map 4 -----
-Map4:
-    ROW_WALLS
-REPT 7
-    DB MT_WALL
-REPT 8
-    DB MT_FLOOR
-ENDR
-    DB MT_WALL
-REPT 8
-    DB MT_FLOOR
-ENDR
-    DB MT_WALL
-ENDR
-    ROW_WALLS
-REPT 7
-    DB MT_WALL
-REPT 8
-    DB MT_FLOOR
-ENDR
-    DB MT_WALL
-REPT 8
-    DB MT_FLOOR
-ENDR
-    DB MT_WALL
-ENDR
-    ROW_EXIT
-
-; ----- Map 5 -----
-Map5:
-    ROW_WALLS
-REPT 6
-    ROW_EMPTY
-    DB MT_WALL
-REPT 16
-    DB MT_FLOOR
-ENDR
-    DB MT_WALL
-ENDR
-    ROW_EMPTY
-    ROW_EXIT
-
-; ----- Map 6 -----
-Map6:
-REPT 17
-    ROW_EMPTY
-ENDR
-    ROW_EXIT
-
-; Table of map pointers
-MapPointers:
-    DW Map1, Map2, Map3, Map4, Map5, Map6
