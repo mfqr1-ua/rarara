@@ -7,7 +7,9 @@ EXPORT PlayerX
 EXPORT PlayerY
 EXPORT CurrentMapPtr
 
-MapIndex:      db 0
-PlayerX:       db 0
-PlayerY:       db 0
-CurrentMapPtr: dw 0
+; Variables stored in WRAM cannot contain initialised data.
+; Reserve the required space and initialise them at runtime instead.
+MapIndex:      ds 1
+PlayerX:       ds 1
+PlayerY:       ds 1
+CurrentMapPtr: ds 2
