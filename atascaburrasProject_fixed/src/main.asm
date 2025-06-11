@@ -8,9 +8,9 @@ INCLUDE "src/ui/maps.asm"
 SECTION "Main", ROM0
 Start:
     call InitRender
-    call InitGame
+    call InitGameSystem
 
 .loop:
-    call UpdateGame
+    call UpdateGameSystem
     call RenderFrame
     jp .loop

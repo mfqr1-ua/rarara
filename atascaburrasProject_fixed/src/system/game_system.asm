@@ -1,5 +1,15 @@
 SECTION "GameSystem", ROM0
 
+InitGameSystem::
+    ; initialize game-related variables
+    ret
+
+UpdateGameSystem::
+    ; update game state each frame
+    ret
+
+SECTION "GameSystem", ROM0
+
 InitGame:
     xor a
     ld [MapIndex], a
