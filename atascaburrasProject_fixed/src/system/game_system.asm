@@ -24,7 +24,7 @@ UpdateGameSystem::
     ld [rJOYP], a
     ld a, [rJOYP]
 
-    ; Move left if pressed
+    ; Move left if pressed (bit cleared)
     bit 1, a
     jr nz, .check_right
     ld hl, PlayerX
@@ -33,7 +33,7 @@ UpdateGameSystem::
     ld [hl], a
 
 .check_right:
-    ; Move right if pressed
+    ; Move right if pressed (bit cleared)
     bit 0, a
     jr nz, .done
     ld hl, PlayerX
