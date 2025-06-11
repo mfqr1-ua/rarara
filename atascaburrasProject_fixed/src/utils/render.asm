@@ -19,14 +19,14 @@ switch_on_screen:
     ret
 
 ; Initializes tile data and screen settings
-InitRender:
+InitRender::
     ; Placeholder: load tiles, turn on LCD
     call switch_off_screen
     call switch_on_screen
     ret
 
 ; Renders the current frame (map and player)
-RenderFrame:
+RenderFrame::
     call wait_vblank_start
     ; Placeholder: draw map and sprite here
     ret
