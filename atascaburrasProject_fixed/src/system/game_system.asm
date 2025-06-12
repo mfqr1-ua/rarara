@@ -1,14 +1,6 @@
 SECTION "GameSystem", ROM0
 
 ; Access state variables and map data
-EXPORT MapIndex
-EXPORT PlayerX
-EXPORT PlayerY
-EXPORT CurrentMapPtr
-EXPORT PlayerPrevX
-EXPORT PlayerPrevY
-EXPORT GameOver
-EXPORT Map1
 
 INCLUDE "src/utils/constants.asm"
 
