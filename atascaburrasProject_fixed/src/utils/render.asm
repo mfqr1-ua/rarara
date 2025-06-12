@@ -6,12 +6,6 @@ INCLUDE "src/utils/constants.asm"
 EXPORT Tiles8p8
 EXPORT TilesEnd
 
-EXPORT Map1
-EXPORT PlayerX
-EXPORT PlayerY
-EXPORT PlayerPrevX
-EXPORT PlayerPrevY
-
 EXPORT InitRender
 EXPORT RenderFrame
 
