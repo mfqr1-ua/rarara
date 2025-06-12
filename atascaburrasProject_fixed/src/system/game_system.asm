@@ -161,11 +161,37 @@ UpdateDone:
 .change_map:
     ld hl, MapIndex
     ld a, [hl]
-    or a
-    jr nz, .win_game
-    inc a
-    ld [hl], a            ; MapIndex ← 1
+    cp 0
+    jr nz, .check_map2
+    inc a                 ; next index -> 1
+    ld [hl], a
     ld hl, Map2
+    jr .load_map
+
+.check_map2:
+    cp 1
+    jr nz, .check_map3
+    inc a                 ; next index -> 2
+    ld [hl], a
+    ld hl, Map3
+    jr .load_map
+
+.check_map3:
+    cp 2
+    jr nz, .check_map4
+    inc a                 ; next index -> 3
+    ld [hl], a
+    ld hl, Map4
+    jr .load_map
+
+.check_map4:
+    cp 3
+    jr nz, .win_game
+    inc a                 ; next index -> 4
+    ld [hl], a
+    ld hl, Map5
+
+.load_map:
     ld a, l
     ld [CurrentMapPtr], a
     ld a, h
@@ -173,6 +199,7 @@ UpdateDone:
     ld a, 1
     ld [PlayerX], a
     ld [PlayerPrevX], a
+    ld a, 1
     ld [PlayerY], a
     ld [PlayerPrevY], a
     call DrawMap
