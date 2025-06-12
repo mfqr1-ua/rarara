@@ -29,9 +29,10 @@ UpdateGameSystem::
     ld a, JOY_SELECT_DPAD
     ld [rJOYP], a
     ld a, [rJOYP]
+    ld b, a                     ; Guarda el valor de entrada para pruebas
 
     ; Move left if pressed (bit cleared)
-    bit 1, a
+    bit 1, b
     jr nz, .check_right
     ld hl, PlayerX
     ld a, [hl]
@@ -40,7 +41,7 @@ UpdateGameSystem::
 
 .check_right:
     ; Move right if pressed (bit cleared)
-    bit 0, a
+    bit 0, b
     jr nz, .done
     ld hl, PlayerX
     ld a, [hl]
