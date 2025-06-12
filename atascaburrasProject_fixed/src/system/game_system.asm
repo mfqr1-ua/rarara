@@ -179,10 +179,7 @@ GetTileAt:
     ld e, b
     add hl, de
     ; Add map base pointer
-    ld hl, CurrentMapPtr
-    ld e, [hl]
-    inc hl
-    ld d, [hl]
+    ld de, (CurrentMapPtr)
     add hl, de
     ld a, [hl]
     pop de
