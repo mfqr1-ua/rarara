@@ -6,14 +6,15 @@ INCLUDE "src/utils/constants.asm"
 EXPORT Tiles8p8
 EXPORT TilesEnd
 
-IMPORT Map1
-IMPORT PlayerX
-IMPORT PlayerY
-IMPORT PlayerPrevX
-IMPORT PlayerPrevY
+EXPORT Map1
+EXPORT PlayerX
+EXPORT PlayerY
+EXPORT PlayerPrevX
+EXPORT PlayerPrevY
 
 EXPORT InitRender
 EXPORT RenderFrame
+
 
 wait_vblank_start:
     ld a, [$FF44]
@@ -40,43 +41,6 @@ InitRender::
     ld a, [rLCDC]
     set 4, a
     ld [rLCDC], a
-
-    xor a
-    ld hl, $8000
-    ld bc, $1800
-.clear_tiles:
-    ld [hl+], a
-    dec bc
-    ld a, b
-    or c
-    jr nz, .clear_tiles
-
-    ld hl, $8000
-    ld de, Tiles8p8
-    ld b, (TilesEnd - Tiles8p8) / 8
-.tile_loop:
-    ld c, 8
-.tile_row:
-    ld a, [de]
-    inc de
-    ld [hl+], a
-    ld [hl+], a
-    dec c
-    jr nz, .tile_row
-    dec b
-    jr nz, .tile_loop
-
-    xor a
-    ld hl, $9800
-    ld bc, $0400
-.clear_map:
-    ld [hl+], a
-    dec bc
-    ld a, b
-    or c
-    jr nz, .clear_map
-
-    ld hl, $9800
     ld de, Map1
     ld b, MAP_HEIGHT
 .row_loop:
@@ -102,6 +66,7 @@ InitRender::
 ; Renders the current frame (map and player)
 RenderFrame::
     call wait_vblank_start
+    ; Placeholder for additional rendering
     ; Restore tile at previous player position
     ld a, [PlayerPrevY]
     ld l, a
