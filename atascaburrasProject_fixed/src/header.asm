@@ -12,7 +12,9 @@ NintendoLogo:
     db $DD,$DC,$99,$9F,$BB,$B9,$33,$3E
 
 GameTitle:
-    db "UNDERFLOW",0,0,0,0,0,0,0
+    ; Title string must only take 15 bytes so that the CGB flag
+    ; starts at $143 and the header size fits exactly 0x50 bytes
+    db "UNDERFLOW",0,0,0,0,0,0
 
     ; Cartridge type, ROM size and other header bytes
     db $00            ; CGB flag
