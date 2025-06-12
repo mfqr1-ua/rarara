@@ -126,17 +126,17 @@ EXPORT Map2
 
 Map2:
     ROW_WALLS
-    ROW_BAR_RIGHT
+    ROW_BAR_LEFT         ; apertura en la izquierda
     ROW_VBAR
     ROW_BAR_LEFT
     ROW_VBAR
-    ROW_BAR_RIGHT
+    ROW_BAR_LEFT         ; deja paso vertical
     ROW_VBAR
     ROW_EMPTY
     ROW_VBAR
     ROW_BAR_LEFT
     ROW_VBAR
-    ROW_BAR_RIGHT
+    ROW_BAR_LEFT         ; mantiene el corredor
     ROW_VBAR
     ROW_BAR_LEFT
     ROW_VBAR
