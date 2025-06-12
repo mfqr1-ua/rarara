@@ -54,25 +54,38 @@ MACRO ROW_EXIT_CORNER
     DB MT_EXIT
 ENDM
 
+; Row with a vertical wall in the middle (column 10)
+MACRO ROW_VBAR
+    DB MT_WALL
+    REPT 9
+        DB MT_FLOOR
+    ENDR
+    DB MT_WALL
+    REPT 8
+        DB MT_FLOOR
+    ENDR
+    DB MT_WALL
+ENDM
+
 ; ----- Map 1 -----
-; Basic maze using horizontal bars to create a simple path.
+; Simple maze with a single vertical wall and a gap to cross.
 ; Player starts at (1,1) and must reach the exit in the lower-right.
 Map1:
     ROW_WALLS        ; top boundary
     ROW_EMPTY        ; starting area
-    ROW_BAR_RIGHT
-    ROW_BAR_LEFT
-    ROW_BAR_RIGHT
-    ROW_BAR_LEFT
-    ROW_BAR_RIGHT
-    ROW_BAR_LEFT
-    ROW_BAR_RIGHT
-    ROW_BAR_LEFT
-    ROW_BAR_RIGHT
-    ROW_BAR_LEFT
-    ROW_BAR_RIGHT
-    ROW_BAR_LEFT
-    ROW_BAR_RIGHT
-    ROW_BAR_LEFT
+    ROW_VBAR
+    ROW_VBAR
+    ROW_VBAR
+    ROW_VBAR
+    ROW_VBAR
+    ROW_EMPTY        ; gap in the wall
+    ROW_VBAR
+    ROW_VBAR
+    ROW_VBAR
+    ROW_VBAR
     ROW_EMPTY
+    ROW_VBAR
+    ROW_VBAR
+    ROW_EMPTY
+    ROW_VBAR
     ROW_EXIT_CORNER  ; bottom row with exit on the right
