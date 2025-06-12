@@ -1,15 +1,19 @@
+SECTION "render", ROM0
+
 INCLUDE "src/utils/constants.asm"
 
 ; External resources from UI module
 EXPORT Tiles8p8
 EXPORT TilesEnd
-EXPORT Map1
 
+IMPORT Map1
+IMPORT PlayerX
+IMPORT PlayerY
+IMPORT PlayerPrevX
+IMPORT PlayerPrevY
 
 EXPORT InitRender
 EXPORT RenderFrame
-
-SECTION "render", ROM0
 
 wait_vblank_start:
     ld a, [$FF44]
@@ -98,5 +102,73 @@ InitRender::
 ; Renders the current frame (map and player)
 RenderFrame::
     call wait_vblank_start
-    ; Placeholder for additional rendering
+    ; Restore tile at previous player position
+    ld a, [PlayerPrevY]
+    ld l, a
+    ld h, 0
+    add hl, hl
+    add hl, hl
+    ld d, h
+    ld e, l                  ; DE = y*4
+    ld a, [PlayerPrevY]
+    ld l, a
+    ld h, 0
+    add hl, hl
+    add hl, hl
+    add hl, hl
+    add hl, hl               ; HL = y*16
+    add hl, de               ; HL = y*20
+    ld a, [PlayerPrevX]
+    ld e, a
+    ld d, 0
+    add hl, de               ; HL = Map1 offset
+    ld de, Map1
+    add hl, de
+    ld b, [hl]               ; B = original tile
+
+    ; Compute VRAM address for previous position
+    ld a, [PlayerPrevY]
+    ld l, a
+    ld h, 0
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h                    ; HL = 32 * prevY
+    ld a, [PlayerPrevX]
+    ld e, a
+    ld d, 0
+    add hl, de
+    ld de, $9800
+    add hl, de
+    ld a, b
+    ld [hl], a              ; restore background tile
+
+    ; Draw player at current position
+    ld a, [PlayerY]
+    ld l, a
+    ld h, 0
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h                    ; HL = 32 * Y
+    ld a, [PlayerX]
+    ld e, a
+    ld d, 0
+    add hl, de
+    ld de, $9800
+    add hl, de
+    ld a, MT_PLAYER
+    ld [hl], a              ; draw player tile
     ret
