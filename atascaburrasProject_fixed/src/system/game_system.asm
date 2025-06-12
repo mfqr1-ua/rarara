@@ -50,7 +50,18 @@ UpdateGameSystem::
     ld a, [hl]
     cp 1
     jr z, .check_right
-    dec a
+    dec a                      ; candidate X
+    ld d, a
+    ld a, [PlayerY]
+    ld e, a                    ; D = newX, E = current Y
+    push bc                    ; preserve input bits
+    ld b, d
+    ld c, e
+    call GetTileAt
+    pop bc
+    cp MT_WALL
+    jr z, .check_right         ; blocked by wall
+    ld a, d
     ld [hl], a
 
 .check_right:
@@ -61,7 +72,18 @@ UpdateGameSystem::
     ld a, [hl]
     cp MAP_WIDTH-2
     jr z, .check_up
-    inc a
+    inc a                      ; candidate X
+    ld d, a
+    ld a, [PlayerY]
+    ld e, a
+    push bc
+    ld b, d
+    ld c, e
+    call GetTileAt
+    pop bc
+    cp MT_WALL
+    jr z, .check_up
+    ld a, d
     ld [hl], a
 
 .check_up:
@@ -72,7 +94,18 @@ UpdateGameSystem::
     ld a, [hl]
     cp 1
     jr z, .check_down
-    dec a
+    dec a                      ; candidate Y
+    ld e, a
+    ld a, [PlayerX]
+    ld d, a
+    push bc
+    ld b, d
+    ld c, e
+    call GetTileAt
+    pop bc
+    cp MT_WALL
+    jr z, .check_down
+    ld a, e
     ld [hl], a
 
 .check_down:
@@ -83,8 +116,61 @@ UpdateGameSystem::
     ld a, [hl]
     cp MAP_HEIGHT-2
     jr z, .done
-    inc a
+    inc a                      ; candidate Y
+    ld e, a
+    ld a, [PlayerX]
+    ld d, a
+    push bc
+    ld b, d
+    ld c, e
+    call GetTileAt
+    pop bc
+    cp MT_WALL
+    jr z, .done
+    ld a, e
     ld [hl], a
 
 .done:
+    ret
+
+;--------------------------------------
+; Returns tile at coordinates B = x, C = y in A
+; Uses: HL, DE
+GetTileAt:
+    push hl
+    push de
+    ; DE = y * 4
+    ld h, 0
+    ld l, c
+    sla l
+    rl h
+    sla l
+    rl h
+    ld d, h
+    ld e, l
+    ; HL = y * 16
+    ld h, 0
+    ld l, c
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h
+    add hl, de              ; HL = y*20
+    ; HL += x
+    ld d, 0
+    ld e, b
+    add hl, de
+    ; Add map base pointer
+    ld hl, CurrentMapPtr
+    ld e, [hl]
+    inc hl
+    ld d, [hl]
+    add hl, de
+    ld a, [hl]
+    pop de
+    pop hl
     ret
