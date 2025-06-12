@@ -68,24 +68,24 @@ MACRO ROW_VBAR
 ENDM
 
 ; ----- Map 1 -----
-; Simple maze with a single vertical wall and a gap to cross.
-; Player starts at (1,1) and must reach the exit in the lower-right.
+; Simple labyrinth of walls. The player starts at (1,1)
+; and must reach the exit at the bottom right.
 Map1:
     ROW_WALLS        ; top boundary
     ROW_EMPTY        ; starting area
     ROW_VBAR
+    ROW_BAR_RIGHT
+    ROW_VBAR
+    ROW_BAR_LEFT
+    ROW_VBAR
+    ROW_EMPTY        ; gap in vertical wall
+    ROW_VBAR
+    ROW_BAR_RIGHT
+    ROW_VBAR
+    ROW_BAR_LEFT
     ROW_VBAR
     ROW_VBAR
     ROW_VBAR
-    ROW_VBAR
-    ROW_EMPTY        ; gap in the wall
-    ROW_VBAR
-    ROW_VBAR
-    ROW_VBAR
-    ROW_VBAR
-    ROW_EMPTY
-    ROW_VBAR
-    ROW_VBAR
-    ROW_EMPTY
+    ROW_EMPTY        ; near the exit
     ROW_VBAR
     ROW_EXIT_CORNER  ; bottom row with exit on the right
