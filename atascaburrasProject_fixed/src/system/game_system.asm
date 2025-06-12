@@ -7,6 +7,7 @@ EXPORT PlayerY
 EXPORT CurrentMapPtr
 EXPORT PlayerPrevX
 EXPORT PlayerPrevY
+EXPORT GameOver
 EXPORT Map1
 
 INCLUDE "src/utils/constants.asm"
@@ -27,6 +28,8 @@ InitGameSystem::
     ld [CurrentMapPtr], a      ; almacena L en CurrentMapPtr
     ld a, h                    ; A ← byte alto de HL
     ld [CurrentMapPtr+1], a    ; almacena H en CurrentMapPtr+1
+    xor a
+    ld [GameOver], a
 
     ret
 
@@ -131,6 +134,17 @@ UpdateGameSystem::
     ld [hl], a
 
 .done:
+    ; Check if player reached the exit tile
+    ld a, [PlayerX]
+    ld b, a
+    ld a, [PlayerY]
+    ld c, a
+    call GetTileAt
+    cp MT_EXIT
+    jr nz, .return
+    ld a, 1
+    ld [GameOver], a
+.return:
     ret
 
 ;--------------------------------------

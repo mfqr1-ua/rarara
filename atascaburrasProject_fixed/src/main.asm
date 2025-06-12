@@ -11,5 +11,11 @@ Start::
 
 .loop:
     call UpdateGameSystem
+    ld a, [GameOver]
+    or a
+    jr nz, .end
     call RenderFrame
     jp .loop
+
+.end:
+    jr .end ; halt on game completion
