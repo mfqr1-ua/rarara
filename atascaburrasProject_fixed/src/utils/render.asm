@@ -1,20 +1,19 @@
+SECTION "render", ROM0
+
 INCLUDE "src/utils/constants.asm"
 
 ; External resources from UI module
 EXPORT Tiles8p8
 EXPORT TilesEnd
-EXPORT Map1
 
+IMPORT Map1
 IMPORT PlayerX
 IMPORT PlayerY
 IMPORT PlayerPrevX
 IMPORT PlayerPrevY
 
-
 EXPORT InitRender
 EXPORT RenderFrame
-
-SECTION "render", ROM0
 
 wait_vblank_start:
     ld a, [$FF44]
@@ -109,7 +108,8 @@ RenderFrame::
     ld h, 0
     add hl, hl
     add hl, hl
-    ld de, hl                ; DE = y*4
+    ld d, h
+    ld e, l                  ; DE = y*4
     ld a, [PlayerPrevY]
     ld l, a
     ld h, 0
