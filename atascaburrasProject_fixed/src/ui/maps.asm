@@ -47,11 +47,13 @@ ENDM
 
 ; Bottom row with the exit in the bottom-right corner
 MACRO ROW_EXIT_CORNER
+    ; Bottom boundary with exit shifted one tile left
     DB MT_WALL
-    REPT MAP_WIDTH - 2
+    REPT MAP_WIDTH - 3
         DB MT_FLOOR
     ENDR
     DB MT_EXIT
+    DB MT_FLOOR
 ENDM
 
 ; Row with a vertical wall in the middle (column 10)
