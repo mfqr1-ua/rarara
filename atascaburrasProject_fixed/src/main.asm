@@ -9,13 +9,13 @@ Start::
     call InitRender
     call InitGameSystem
 
-.loop:
+MainLoop:
     call UpdateGameSystem
     ld a, [GameOver]
     or a
-    jr nz, .end
+    jr nz, End
     call RenderFrame
-    jp .loop
+    jp MainLoop
 
-.end:
-    jr .end ; halt on game completion
+End:
+    jr End ; halt on game completion
