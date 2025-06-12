@@ -135,9 +135,22 @@ UpdateDone:
     jr nz, .check_exit
     jr .change_map
 
+
 .check_exit:
     ; Otherwise, check if the tile is an explicit exit
     ld a, [PlayerX]
+    ld b, a
+    ld a, [PlayerY]
+    ld c, a
+    call GetTileAt
+    cp MT_EXIT
+    jr z, .change_map
+
+    ; Additionally, switch maps when standing to the left of an exit tile
+    ld a, [PlayerX]
+    cp MAP_WIDTH-1            ; Ensure within bounds
+    jr z, UpdateReturn
+    inc a                     ; check tile to the right
     ld b, a
     ld a, [PlayerY]
     ld c, a
