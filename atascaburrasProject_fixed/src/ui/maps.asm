@@ -67,6 +67,19 @@ MACRO ROW_VBAR
     DB MT_WALL
 ENDM
 
+; Same as ROW_VBAR but the rightmost tile is floor
+MACRO ROW_VBAR_RIGHT_GAP
+    DB MT_WALL
+    REPT 9
+        DB MT_FLOOR
+    ENDR
+    DB MT_WALL
+    REPT 8
+        DB MT_FLOOR
+    ENDR
+    DB MT_FLOOR
+ENDM
+
 Map1:
     ROW_WALLS        ; fila 0: límite superior
     ROW_EMPTY        ; fila 1: zona de inicio
@@ -90,7 +103,7 @@ Map1:
     ROW_EMPTY        ; fila 14: CORREDOR LIBRE  ← antes ROW_VBAR
 
     ROW_VBAR         ; fila 15: muro vertical
-    ROW_VBAR         ; fila 16: muro vertical
+    ROW_VBAR_RIGHT_GAP ; fila 16: hueco para salir
     ROW_EXIT_CORNER  ; fila 17: salida en la esquina inferior derecha
 
 EXPORT Map2
@@ -112,5 +125,5 @@ Map2:
     ROW_BAR_LEFT
     ROW_VBAR
     ROW_EMPTY
-    ROW_VBAR
+    ROW_VBAR_RIGHT_GAP
     ROW_EXIT_CORNER
