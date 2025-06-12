@@ -134,6 +134,25 @@ UpdateDone:
     call GetTileAt
     cp MT_EXIT
     jr nz, UpdateReturn
+    ld hl, MapIndex
+    ld a, [hl]
+    or a
+    jr nz, .win_game
+    inc a
+    ld [hl], a            ; MapIndex ← 1
+    ld hl, Map2
+    ld a, l
+    ld [CurrentMapPtr], a
+    ld a, h
+    ld [CurrentMapPtr+1], a
+    ld a, 1
+    ld [PlayerX], a
+    ld [PlayerPrevX], a
+    ld [PlayerY], a
+    ld [PlayerPrevY], a
+    call DrawMap
+    jr UpdateReturn
+.win_game:
     ld a, 1
     ld [GameOver], a
 UpdateReturn:

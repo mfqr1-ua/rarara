@@ -91,3 +91,24 @@ Map1:
 
     ROW_VBAR         ; fila 15: muro vertical
     ROW_EXIT_CORNER  ; fila 16: salida en la esquina inferior derecha
+
+EXPORT Map2
+
+Map2:
+    ROW_WALLS
+    ROW_BAR_RIGHT
+    ROW_VBAR
+    ROW_BAR_LEFT
+    ROW_VBAR
+    ROW_BAR_RIGHT
+    ROW_VBAR
+    ROW_EMPTY
+    ROW_VBAR
+    ROW_BAR_LEFT
+    ROW_VBAR
+    ROW_BAR_RIGHT
+    ROW_VBAR
+    ROW_BAR_LEFT
+    ROW_VBAR
+    ROW_EMPTY
+    ROW_EXIT_CORNER

@@ -6,8 +6,8 @@ INCLUDE "src/ui/maps.asm"
 
 SECTION "Main", ROM0
 Start::
-    call InitRender
     call InitGameSystem
+    call InitRender
 
 MainLoop:
     call UpdateGameSystem

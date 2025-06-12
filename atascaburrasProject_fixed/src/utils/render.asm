@@ -8,6 +8,7 @@ EXPORT TilesEnd
 
 EXPORT InitRender
 EXPORT RenderFrame
+EXPORT DrawMap
 
 
 WaitVBlankStart:
@@ -51,7 +52,10 @@ CopyTiles:
 
     ; Draw initial map in the background
     ld hl, $9800
-    ld de, Map1
+    ld a, [CurrentMapPtr]
+    ld e, a
+    ld a, [CurrentMapPtr+1]
+    ld d, a
     ld b, MAP_HEIGHT
 RowLoop:
     ld c, MAP_WIDTH
@@ -96,8 +100,11 @@ RenderFrame::
     ld a, [PlayerPrevX]
     ld e, a
     ld d, 0
-    add hl, de               ; HL = Map1 offset
-    ld de, Map1
+    add hl, de               ; HL = tile offset
+    ld a, [CurrentMapPtr]
+    ld e, a
+    ld a, [CurrentMapPtr+1]
+    ld d, a
     add hl, de
     ld b, [hl]               ; B = original tile
 
@@ -146,4 +153,30 @@ RenderFrame::
     add hl, de
     ld a, MT_PLAYER
     ld [hl], a              ; draw player tile
+    ret
+
+; Draws the current map pointed by CurrentMapPtr to the background
+DrawMap::
+    ld hl, $9800
+    ld a, [CurrentMapPtr]
+    ld e, a
+    ld a, [CurrentMapPtr+1]
+    ld d, a
+    ld b, MAP_HEIGHT
+.RowLoop:
+    ld c, MAP_WIDTH
+.ColLoop:
+    ld a, [de]
+    inc de
+    ld [hl+], a
+    dec c
+    jr nz, .ColLoop
+    ld a, l
+    add a, $20 - MAP_WIDTH
+    ld l, a
+    ld a, h
+    adc a, 0
+    ld h, a
+    dec b
+    jr nz, .RowLoop
     ret
