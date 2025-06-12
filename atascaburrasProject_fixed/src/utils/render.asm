@@ -39,8 +39,24 @@ InitRender::
     call switch_off_screen
 
     ld a, [rLCDC]
-    set 4, a
+    set 4, a                      ; use $8000 tile data
     ld [rLCDC], a
+
+    ; Copy tiles into VRAM
+    ld hl, Tiles8p8
+    ld de, $8000
+    ld bc, TilesEnd - Tiles8p8
+.copy_tiles:
+    ld a, [hl+]
+    ld [de], a
+    inc de
+    dec bc
+    ld a, c
+    or b
+    jr nz, .copy_tiles
+
+    ; Draw initial map in the background
+    ld hl, $9800
     ld de, Map1
     ld b, MAP_HEIGHT
 .row_loop:
