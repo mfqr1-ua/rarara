@@ -7,6 +7,8 @@ DEF rJOYP = $FF00
 ; Joypad bits and select mask
 DEF JOY_RIGHT      = $01
 DEF JOY_LEFT       = $02
+DEF JOY_UP         = $04
+DEF JOY_DOWN       = $08
 DEF JOY_SELECT_DPAD = $20
 DEF MAP_WIDTH  = 20
 DEF MAP_HEIGHT = 18

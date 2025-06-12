@@ -56,10 +56,32 @@ UpdateGameSystem::
 .check_right:
     ; Move right if pressed (bit cleared)
     bit 0, b
-    jr nz, .done
+    jr nz, .check_up
     ld hl, PlayerX
     ld a, [hl]
     cp MAP_WIDTH-2
+    jr z, .check_up
+    inc a
+    ld [hl], a
+
+.check_up:
+    ; Move up if pressed (bit cleared)
+    bit 2, b
+    jr nz, .check_down
+    ld hl, PlayerY
+    ld a, [hl]
+    cp 1
+    jr z, .check_down
+    dec a
+    ld [hl], a
+
+.check_down:
+    ; Move down if pressed (bit cleared)
+    bit 3, b
+    jr nz, .done
+    ld hl, PlayerY
+    ld a, [hl]
+    cp MAP_HEIGHT-2
     jr z, .done
     inc a
     ld [hl], a
