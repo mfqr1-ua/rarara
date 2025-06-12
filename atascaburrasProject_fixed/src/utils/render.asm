@@ -16,19 +16,19 @@ EXPORT InitRender
 EXPORT RenderFrame
 
 
-wait_vblank_start:
+WaitVBlankStart:
     ld a, [$FF44]
     cp 144
-    jr nz, wait_vblank_start
+    jr nz, WaitVBlankStart
     ret
 
-switch_off_screen:
+SwitchOffScreen:
     ld a, [$FF40]
     res 7, a
     ld [$FF40], a
     ret
 
-switch_on_screen:
+SwitchOnScreen:
     ld a, [$FF40]
     set 7, a
     ld [$FF40], a
@@ -36,7 +36,7 @@ switch_on_screen:
 
 ; Initializes tile data and screen settings
 InitRender::
-    call switch_off_screen
+    call SwitchOffScreen
 
     ld a, [rLCDC]
     set 4, a                      ; use $8000 tile data
@@ -46,27 +46,27 @@ InitRender::
     ld hl, Tiles8p8
     ld de, $8000
     ld bc, TilesEnd - Tiles8p8
-.copy_tiles:
+CopyTiles:
     ld a, [hl+]
     ld [de], a
     inc de
     dec bc
     ld a, c
     or b
-    jr nz, .copy_tiles
+    jr nz, CopyTiles
 
     ; Draw initial map in the background
     ld hl, $9800
     ld de, Map1
     ld b, MAP_HEIGHT
-.row_loop:
+RowLoop:
     ld c, MAP_WIDTH
-.col_loop:
+ColLoop:
     ld a, [de]
     inc de
     ld [hl+], a
     dec c
-    jr nz, .col_loop
+    jr nz, ColLoop
     ld a, l
     add a, $20 - MAP_WIDTH
     ld l, a
@@ -74,14 +74,14 @@ InitRender::
     adc a, 0
     ld h, a
     dec b
-    jr nz, .row_loop
+    jr nz, RowLoop
 
-    call switch_on_screen
+    call SwitchOnScreen
     ret
 
 ; Renders the current frame (map and player)
 RenderFrame::
-    call wait_vblank_start
+    call WaitVBlankStart
     ; Placeholder for additional rendering
     ; Restore tile at previous player position
     ld a, [PlayerPrevY]

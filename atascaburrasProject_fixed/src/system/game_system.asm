@@ -48,11 +48,11 @@ UpdateGameSystem::
 
     ; Move left if pressed (bit cleared)
     bit 1, b
-    jr nz, .check_right
+    jr nz, CheckRight
     ld hl, PlayerX
     ld a, [hl]
     cp 1
-    jr z, .check_right
+    jr z, CheckRight
     dec a                      ; candidate X
     ld d, a
     ld a, [PlayerY]
@@ -63,18 +63,18 @@ UpdateGameSystem::
     call GetTileAt
     pop bc
     cp MT_WALL
-    jr z, .check_right         ; blocked by wall
+    jr z, CheckRight         ; blocked by wall
     ld a, d
     ld [hl], a
 
-.check_right:
+CheckRight:
     ; Move right if pressed (bit cleared)
     bit 0, b
-    jr nz, .check_up
+    jr nz, CheckUp
     ld hl, PlayerX
     ld a, [hl]
     cp MAP_WIDTH-2
-    jr z, .check_up
+    jr z, CheckUp
     inc a                      ; candidate X
     ld d, a
     ld a, [PlayerY]
@@ -85,18 +85,18 @@ UpdateGameSystem::
     call GetTileAt
     pop bc
     cp MT_WALL
-    jr z, .check_up
+    jr z, CheckUp
     ld a, d
     ld [hl], a
 
-.check_up:
+CheckUp:
     ; Move up if pressed (bit cleared)
     bit 2, b
-    jr nz, .check_down
+    jr nz, CheckDown
     ld hl, PlayerY
     ld a, [hl]
     cp 1
-    jr z, .check_down
+    jr z, CheckDown
     dec a                      ; candidate Y
     ld e, a
     ld a, [PlayerX]
@@ -107,18 +107,18 @@ UpdateGameSystem::
     call GetTileAt
     pop bc
     cp MT_WALL
-    jr z, .check_down
+    jr z, CheckDown
     ld a, e
     ld [hl], a
 
-.check_down:
+CheckDown:
     ; Move down if pressed (bit cleared)
     bit 3, b
-    jr nz, .done
+    jr nz, UpdateDone
     ld hl, PlayerY
     ld a, [hl]
     cp MAP_HEIGHT-2
-    jr z, .done
+    jr z, UpdateDone
     inc a                      ; candidate Y
     ld e, a
     ld a, [PlayerX]
@@ -129,11 +129,11 @@ UpdateGameSystem::
     call GetTileAt
     pop bc
     cp MT_WALL
-    jr z, .done
+    jr z, UpdateDone
     ld a, e
     ld [hl], a
 
-.done:
+UpdateDone:
     ; Check if player reached the exit tile
     ld a, [PlayerX]
     ld b, a
@@ -141,10 +141,10 @@ UpdateGameSystem::
     ld c, a
     call GetTileAt
     cp MT_EXIT
-    jr nz, .return
+    jr nz, UpdateReturn
     ld a, 1
     ld [GameOver], a
-.return:
+UpdateReturn:
     ret
 
 ;--------------------------------------
@@ -179,7 +179,10 @@ GetTileAt:
     ld e, b
     add hl, de
     ; Add map base pointer
-    ld de, (CurrentMapPtr)
+    ld hl, CurrentMapPtr
+    ld e, [hl]
+    inc hl
+    ld d, [hl]
     add hl, de
     ld a, [hl]
     pop de
