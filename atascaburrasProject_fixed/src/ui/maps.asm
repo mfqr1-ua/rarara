@@ -67,25 +67,27 @@ MACRO ROW_VBAR
     DB MT_WALL
 ENDM
 
-; ----- Map 1 -----
-; Simple labyrinth of walls. The player starts at (1,1)
-; and must reach the exit at the bottom right.
 Map1:
-    ROW_WALLS        ; top boundary
-    ROW_EMPTY        ; starting area
-    ROW_VBAR
-    ROW_BAR_RIGHT
-    ROW_VBAR
-    ROW_BAR_LEFT
-    ROW_VBAR
-    ROW_EMPTY        ; gap in vertical wall
-    ROW_VBAR
-    ROW_BAR_RIGHT
-    ROW_VBAR
-    ROW_BAR_LEFT
-    ROW_VBAR
-    ROW_VBAR
-    ROW_VBAR
-    ROW_EMPTY        ; near the exit
-    ROW_VBAR
-    ROW_EXIT_CORNER  ; bottom row with exit on the right
+    ROW_WALLS        ; fila 0: límite superior
+    ROW_EMPTY        ; fila 1: zona de inicio
+
+    ROW_VBAR         ; fila 2: muro vertical
+    ROW_EMPTY        ; fila 3: CORREDOR LIBRE  ← antes ROW_BAR_RIGHT
+
+    ROW_VBAR         ; fila 4: muro vertical
+    ROW_BAR_LEFT     ; fila 5: muro con hueco a la izquierda
+    ROW_VBAR         ; fila 6: muro vertical
+
+    ROW_EMPTY        ; fila 7: GAP en la pared
+    ROW_VBAR         ; fila 8: muro vertical
+    ROW_EMPTY        ; fila 9: CORREDOR LIBRE  ← antes ROW_BAR_RIGHT
+
+    ROW_VBAR         ; fila 10
+    ROW_BAR_LEFT     ; fila 11
+    ROW_VBAR         ; fila 12
+
+    ROW_VBAR         ; fila 13: muro vertical
+    ROW_EMPTY        ; fila 14: CORREDOR LIBRE  ← antes ROW_VBAR
+
+    ROW_VBAR         ; fila 15: muro vertical
+    ROW_EXIT_CORNER  ; fila 16: salida en la esquina inferior derecha
