@@ -65,7 +65,7 @@ CheckRight:
     jr nz, CheckUp
     ld hl, PlayerX
     ld a, [hl]
-    cp MAP_WIDTH-2
+    cp MAP_WIDTH-1
     jr z, CheckUp
     inc a                      ; candidate X
     ld d, a
@@ -109,7 +109,7 @@ CheckDown:
     jr nz, UpdateDone
     ld hl, PlayerY
     ld a, [hl]
-    cp MAP_HEIGHT-2
+    cp MAP_HEIGHT-1
     jr z, UpdateDone
     inc a                      ; candidate Y
     ld e, a
