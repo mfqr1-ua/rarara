@@ -60,9 +60,9 @@ UpdateGameSystem::
     push bc                    ; preserve input bits
     ld b, d
     ld c, e
-    call GetTileAt
+    call IsWalkable
     pop bc
-    cp MT_WALL
+    or a
     jr z, CheckRight         ; blocked by wall
     ld a, d
     ld [hl], a
@@ -82,9 +82,9 @@ CheckRight:
     push bc
     ld b, d
     ld c, e
-    call GetTileAt
+    call IsWalkable
     pop bc
-    cp MT_WALL
+    or a
     jr z, CheckUp
     ld a, d
     ld [hl], a
@@ -104,9 +104,9 @@ CheckUp:
     push bc
     ld b, d
     ld c, e
-    call GetTileAt
+    call IsWalkable
     pop bc
-    cp MT_WALL
+    or a
     jr z, CheckDown
     ld a, e
     ld [hl], a
@@ -126,9 +126,9 @@ CheckDown:
     push bc
     ld b, d
     ld c, e
-    call GetTileAt
+    call IsWalkable
     pop bc
-    cp MT_WALL
+    or a
     jr z, UpdateDone
     ld a, e
     ld [hl], a
@@ -147,44 +147,3 @@ UpdateDone:
 UpdateReturn:
     ret
 
-;--------------------------------------
-; Returns tile at coordinates B = x, C = y in A
-; Uses: HL, DE
-GetTileAt:
-    push hl
-    push de
-    ; DE = y * 4
-    ld h, 0
-    ld l, c
-    sla l
-    rl h
-    sla l
-    rl h
-    ld d, h
-    ld e, l
-    ; HL = y * 16
-    ld h, 0
-    ld l, c
-    sla l
-    rl h
-    sla l
-    rl h
-    sla l
-    rl h
-    sla l
-    rl h
-    add hl, de              ; HL = y*20
-    ; HL += x
-    ld d, 0
-    ld e, b
-    add hl, de
-    ; Add map base pointer
-    ld hl, CurrentMapPtr
-    ld e, [hl]
-    inc hl
-    ld d, [hl]
-    add hl, de
-    ld a, [hl]
-    pop de
-    pop hl
-    ret
