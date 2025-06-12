@@ -126,19 +126,19 @@ EXPORT Map2
 
 Map2:
     ROW_WALLS
-    ROW_BAR_RIGHT
+    ROW_BAR_LEFT         ; apertura en la izquierda
+    ROW_EMPTY            ; permite cruzar horizontalmente
+    ROW_EMPTY            ; pasillo sin muro
     ROW_VBAR
-    ROW_BAR_LEFT
-    ROW_VBAR
-    ROW_BAR_RIGHT
+    ROW_BAR_RIGHT        ; hueco por la derecha
     ROW_VBAR
     ROW_EMPTY
     ROW_VBAR
     ROW_BAR_LEFT
     ROW_VBAR
-    ROW_BAR_RIGHT
-    ROW_VBAR
-    ROW_BAR_LEFT
+    ROW_BAR_LEFT         ; mantiene el corredor
+    ROW_EMPTY            ; cruce central
+    ROW_BAR_RIGHT        ; obliga a ir a la derecha
     ROW_VBAR
     ROW_EMPTY
     ROW_VBAR_RIGHT_GAP
