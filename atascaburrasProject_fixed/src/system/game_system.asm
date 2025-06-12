@@ -126,7 +126,17 @@ CheckDown:
     ld [hl], a
 
 UpdateDone:
-    ; Check if player reached the exit tile
+    ; If the player reaches the bottom-right corner, switch maps
+    ld a, [PlayerX]
+    cp MAP_WIDTH-1
+    jr nz, .check_exit
+    ld a, [PlayerY]
+    cp MAP_HEIGHT-1
+    jr nz, .check_exit
+    jr .change_map
+
+.check_exit:
+    ; Otherwise, check if the tile is an explicit exit
     ld a, [PlayerX]
     ld b, a
     ld a, [PlayerY]
@@ -134,6 +144,8 @@ UpdateDone:
     call GetTileAt
     cp MT_EXIT
     jr nz, UpdateReturn
+
+.change_map:
     ld hl, MapIndex
     ld a, [hl]
     or a

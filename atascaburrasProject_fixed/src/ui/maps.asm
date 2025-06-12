@@ -90,7 +90,8 @@ Map1:
     ROW_EMPTY        ; fila 14: CORREDOR LIBRE  ← antes ROW_VBAR
 
     ROW_VBAR         ; fila 15: muro vertical
-    ROW_EXIT_CORNER  ; fila 16: salida en la esquina inferior derecha
+    ROW_VBAR         ; fila 16: muro vertical
+    ROW_EXIT_CORNER  ; fila 17: salida en la esquina inferior derecha
 
 EXPORT Map2
 
@@ -111,4 +112,5 @@ Map2:
     ROW_BAR_LEFT
     ROW_VBAR
     ROW_EMPTY
+    ROW_VBAR
     ROW_EXIT_CORNER
