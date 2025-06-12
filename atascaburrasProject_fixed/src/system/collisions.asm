@@ -1,7 +1,5 @@
 INCLUDE "src/utils/constants.asm"
-INCLUDE "src/utils/memory.asm"
-; memory.asm switches to the WRAM0 section, so we must
-; return to ROM0 for code after the include
+
 SECTION "Collision", ROM0
 
 EXPORT GetTileAt
