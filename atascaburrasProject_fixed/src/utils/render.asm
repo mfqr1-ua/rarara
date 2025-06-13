@@ -9,6 +9,7 @@ EXPORT TilesEnd
 EXPORT InitRender
 EXPORT RenderFrame
 EXPORT DrawMap
+EXPORT DisplayWinMessage
 
 
 WaitVBlankStart:
@@ -180,3 +181,21 @@ DrawMap::
     dec b
     jr nz, .RowLoop
     ret
+
+; Displays "YOU WIN" centered on the screen
+DisplayWinMessage::
+    call WaitVBlankStart
+    ld hl, WinMessage
+    ld de, $9926            ; row 9, column 6
+    ld b, WinMessageLen
+.char_loop:
+    ld a, [hl+]
+    ld [de], a
+    inc de
+    dec b
+    jr nz, .char_loop
+    ret
+
+WinMessage:
+    db TILE_Y, TILE_O, TILE_U, MT_FLOOR, TILE_W, TILE_I, TILE_N
+WinMessageLen EQU $-WinMessage

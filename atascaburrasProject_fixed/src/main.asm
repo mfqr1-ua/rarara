@@ -13,9 +13,11 @@ MainLoop:
     call UpdateGameSystem
     ld a, [GameOver]
     or a
-    jr nz, End
+    jr nz, Win
     call RenderFrame
     jp MainLoop
 
+Win:
+    call DisplayWinMessage
 End:
     jr End ; halt on game completion
