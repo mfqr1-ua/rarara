@@ -198,4 +198,4 @@ DisplayWinMessage::
 
 WinMessage:
     db TILE_Y, TILE_O, TILE_U, MT_FLOOR, TILE_W, TILE_I, TILE_N
-WinMessageLen EQU $-WinMessage
+WinMessageLen EQU @-WinMessage
