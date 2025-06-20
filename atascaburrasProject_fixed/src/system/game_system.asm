@@ -22,6 +22,7 @@ InitGameSystem::
     ld [CurrentMapPtr+1], a    ; almacena H en CurrentMapPtr+1
     xor a
     ld [GameOver], a
+    ld [MoveCooldown], a
 
     ret
 
@@ -31,6 +32,15 @@ UpdateGameSystem::
     ld [PlayerPrevX], a
     ld a, [PlayerY]
     ld [PlayerPrevY], a
+
+    ; Handle movement cooldown
+    ld hl, MoveCooldown
+    ld a, [hl]
+    or a
+    jr z, ReadInput
+    dec [hl]
+    jr UpdateReturn
+ReadInput:
 
     ; Read directional input
     ld a, JOY_SELECT_DPAD
@@ -58,6 +68,8 @@ UpdateGameSystem::
     jr z, CheckRight         ; blocked by wall
     ld a, d
     ld [hl], a
+    ld a, PLAYER_MOVE_DELAY
+    ld [MoveCooldown], a
 
 CheckRight:
     ; Move right if pressed (bit cleared)
@@ -80,6 +92,8 @@ CheckRight:
     jr z, CheckUp
     ld a, d
     ld [hl], a
+    ld a, PLAYER_MOVE_DELAY
+    ld [MoveCooldown], a
 
 CheckUp:
     ; Move up if pressed (bit cleared)
@@ -102,6 +116,8 @@ CheckUp:
     jr z, CheckDown
     ld a, e
     ld [hl], a
+    ld a, PLAYER_MOVE_DELAY
+    ld [MoveCooldown], a
 
 CheckDown:
     ; Move down if pressed (bit cleared)
@@ -124,6 +140,8 @@ CheckDown:
     jr z, UpdateDone
     ld a, e
     ld [hl], a
+    ld a, PLAYER_MOVE_DELAY
+    ld [MoveCooldown], a
 
 UpdateDone:
     ; If the player reaches the bottom-right corner, switch maps
@@ -203,6 +221,8 @@ UpdateDone:
     ld [PlayerY], a
     ld [PlayerPrevY], a
     call DrawMap
+    xor a
+    ld [MoveCooldown], a
     jr UpdateReturn
 .win_game:
     ld a, 1

@@ -9,6 +9,7 @@ EXPORT CurrentMapPtr
 EXPORT PlayerPrevX
 EXPORT PlayerPrevY
 EXPORT GameOver
+EXPORT MoveCooldown
 
 ; Variables stored in WRAM cannot contain initialised data.
 ; Reserve the required space and initialise them at runtime instead.
@@ -19,3 +20,4 @@ CurrentMapPtr: ds 2
 PlayerPrevX:   ds 1
 PlayerPrevY:   ds 1
 GameOver:      ds 1
+MoveCooldown:  ds 1
