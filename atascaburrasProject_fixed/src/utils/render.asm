@@ -158,6 +158,7 @@ RenderFrame::
 
 ; Draws the current map pointed by CurrentMapPtr to the background
 DrawMap::
+    call WaitVBlankStart
     ld hl, $9800
     ld a, [CurrentMapPtr]
     ld e, a
