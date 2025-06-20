@@ -39,7 +39,7 @@ UpdateGameSystem::
     or a
     jr z, ReadInput
     dec [hl]
-    jr UpdateReturn
+    jp UpdateReturn
 ReadInput:
 
     ; Read directional input
