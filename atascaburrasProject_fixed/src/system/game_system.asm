@@ -14,6 +14,14 @@ InitGameSystem::
     ld [PlayerY], a            ; PlayerY   ← 1
     ld [PlayerPrevY], a
 
+    ; Set enemy initial position (static)
+    ld a, 10
+    ld [EnemyX], a
+    ld [EnemyPrevX], a
+    ld a, 9
+    ld [EnemyY], a
+    ld [EnemyPrevY], a
+
     ld hl, Map1                ; HL ← dirección de Map1
 
     ld a, l                    ; A ← byte bajo de HL
@@ -144,6 +152,22 @@ CheckDown:
     ld [MoveCooldown], a
 
 UpdateDone:
+    ; Check if player stepped on an enemy tile
+    ld a, [PlayerX]
+    ld b, a
+    ld a, [PlayerY]
+    ld c, a
+    call GetTileAt
+    cp MT_ENEMY
+    jr nz, .continue_update
+    ld a, 1
+    ld [GameOver], a
+    xor a
+    ld [CurrentNoteIndex], a
+    ld [NoteTimer], a
+    jp UpdateReturn
+
+.continue_update:
     ; If the player reaches the bottom-right corner, switch maps
     ld a, [PlayerX]
     cp MAP_WIDTH-1
@@ -167,14 +191,14 @@ UpdateDone:
     ; Additionally, switch maps when standing to the left of an exit tile
     ld a, [PlayerX]
     cp MAP_WIDTH-1            ; Ensure within bounds
-    jr z, UpdateReturn
+    jp z, UpdateReturn
     inc a                     ; check tile to the right
     ld b, a
     ld a, [PlayerY]
     ld c, a
     call GetTileAt
     cp MT_EXIT
-    jr nz, UpdateReturn
+    jp nz, UpdateReturn
 
 .change_map:
     ld hl, MapIndex
@@ -223,7 +247,7 @@ UpdateDone:
     call DrawMap
     xor a
     ld [MoveCooldown], a
-    jr UpdateReturn
+    jp UpdateReturn
 .win_game:
     ld a, 1
     ld [GameOver], a

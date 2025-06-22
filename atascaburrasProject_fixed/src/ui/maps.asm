@@ -16,6 +16,19 @@ MACRO ROW_EMPTY
     DB MT_WALL
 ENDM
 
+; Row with an enemy in the middle
+MACRO ROW_EMPTY_ENEMY
+    DB MT_WALL
+    REPT 9
+        DB MT_FLOOR
+    ENDR
+    DB MT_ENEMY
+    REPT 8
+        DB MT_FLOOR
+    ENDR
+    DB MT_WALL
+ENDM
+
 MACRO ROW_EXIT
     DB MT_WALL
     REPT MAP_WIDTH - 3
@@ -109,7 +122,7 @@ Map1:
 
     ROW_EMPTY        ; fila 7: GAP en la pared
     ROW_VBAR         ; fila 8: muro vertical
-    ROW_EMPTY        ; fila 9: CORREDOR LIBRE  ← antes ROW_BAR_RIGHT
+    ROW_EMPTY_ENEMY  ; fila 9: pasillo con enemigo
 
     ROW_VBAR         ; fila 10
     ROW_BAR_LEFT     ; fila 11

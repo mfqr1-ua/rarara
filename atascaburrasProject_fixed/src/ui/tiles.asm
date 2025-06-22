@@ -25,5 +25,8 @@ Tiles8p8:
     DB $FF,$18,$18,$18,$18,$18,$18,$FF
 ; Tile 9 - letter N
     DB $81,$C1,$A1,$91,$89,$85,$83,$81
+; Tile 10 - enemy doll similar to player
+; base circle with an X pattern inside
+    DB $3C,$42,$A5,$81,$81,$A5,$42,$3C
 
 TilesEnd:
