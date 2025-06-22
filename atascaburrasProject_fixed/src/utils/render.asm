@@ -10,6 +10,19 @@ EXPORT InitRender
 EXPORT RenderFrame
 EXPORT DrawMap
 EXPORT DisplayWinMessage
+; Fills the entire background with blank tiles
+ClearScreen:
+    call WaitVBlankStart
+    ld hl, $9800
+    ld bc, $400            ; 32x32 tile map
+    ld a, TILE_SPACE
+.clear_loop:
+    ld [hl+], a
+    dec bc
+    ld a, b
+    or c
+    jr nz, .clear_loop
+    ret
 
 
 WaitVBlankStart:
@@ -183,25 +196,10 @@ DrawMap::
     jr nz, .RowLoop
     ret
 
-; Displays "YOU WIN" centered on the screen
+; Displays "YOU WIN" centered on a blank screen
 DisplayWinMessage::
-    ; Wait for VBlank to safely update VRAM
+    call ClearScreen
     call WaitVBlankStart
-    ; Hide the screen while preparing the win screen
-    call SwitchOffScreen
-
-    ; Clear the entire background to blank tiles
-    ld hl, $9800
-    ld bc, $0400            ; 32x32 background size
-    xor a                   ; tile 0 is blank/white
-.clear_loop:
-    ld [hl+], a
-    dec bc
-    ld a, c
-    or b
-    jr nz, .clear_loop
-
-    ; Draw the win message centred on screen
     ld hl, WinMessage
     ld de, $9926            ; row 9, column 6
     ld b, WinMessageLen
@@ -211,11 +209,8 @@ DisplayWinMessage::
     inc de
     dec b
     jr nz, .char_loop
-
-    ; Show the screen with the message
-    call SwitchOnScreen
     ret
 
 WinMessage:
-    db TILE_Y, TILE_O, TILE_U, MT_FLOOR, TILE_W, TILE_I, TILE_N
+    db TILE_Y, TILE_O, TILE_U, TILE_SPACE, TILE_W, TILE_I, TILE_N
 DEF WinMessageLen = @-WinMessage
