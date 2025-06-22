@@ -185,7 +185,23 @@ DrawMap::
 
 ; Displays "YOU WIN" centered on the screen
 DisplayWinMessage::
+    ; Wait for VBlank to safely update VRAM
     call WaitVBlankStart
+    ; Hide the screen while preparing the win screen
+    call SwitchOffScreen
+
+    ; Clear the entire background to blank tiles
+    ld hl, $9800
+    ld bc, $0400            ; 32x32 background size
+    xor a                   ; tile 0 is blank/white
+.clear_loop:
+    ld [hl+], a
+    dec bc
+    ld a, c
+    or b
+    jr nz, .clear_loop
+
+    ; Draw the win message centred on screen
     ld hl, WinMessage
     ld de, $9926            ; row 9, column 6
     ld b, WinMessageLen
@@ -195,6 +211,9 @@ DisplayWinMessage::
     inc de
     dec b
     jr nz, .char_loop
+
+    ; Show the screen with the message
+    call SwitchOnScreen
     ret
 
 WinMessage:
