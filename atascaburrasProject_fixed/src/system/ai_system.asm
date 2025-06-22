@@ -1,8 +1,6 @@
 SECTION "AISystem", ROM0
 
 INCLUDE "src/utils/constants.asm"
-INCLUDE "src/utils/memory.asm"
-INCLUDE "src/system/collisions.asm"
 
 EXPORT InitAISystem
 EXPORT UpdateAISystem
