@@ -36,8 +36,8 @@ SwitchOnScreen:
 InitRender::
     call SwitchOffScreen
 
-    ; Use default grayscale palette
-    ld a, $E4
+    ; Use palette with black sprites for visibility
+    ld a, $EC
     ld [rBGP], a
 
     ld a, [rLCDC]

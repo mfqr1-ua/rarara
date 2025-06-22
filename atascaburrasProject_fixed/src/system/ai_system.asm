@@ -19,35 +19,73 @@ InitAISystem::
     ret
 
 ;--------------------------------------
-; Very simple AI to move the enemy up and down
+; Simple AI that chases the player one step at a time
 UpdateAISystem::
+    ; store previous position for render restoration
     ld   a, [EnemyX]
     ld   [EnemyPrevX], a
     ld   a, [EnemyY]
     ld   [EnemyPrevY], a
 
-    ; Ejemplo: enemigo sube y baja entre y=2 y y=MAP_HEIGHT-2
+    ; ----- move horizontally towards player -----
+    ld   a, [EnemyX]
+    ld   d, a               ; D = current X
+    ld   a, [PlayerX]
+    cp   d                  ; compare playerX with enemyX
+    jr   z, .vert_move
+    jr   c, .move_left      ; playerX < enemyX -> move left
+.move_right:
+    inc  d                  ; candidate X = enemyX + 1
+    ld   b, d
     ld   a, [EnemyY]
-    cp   2
-    jr   c, .go_down
-    cp   MAP_HEIGHT-2
-    jr   nz, .go_up
-    ; al llegar al límite superior/inferior invierte el signo
-    xor  a
-    ld   [EnemyDir], a      ; EnemyDir = 0↑arriba, 1↑abajo
+    ld   c, a
+    call IsWalkable         ; check wall
+    or   a
+    jr   z, .vert_move
+    ld   a, b
+    ld   [EnemyX], a
+    jr   .vert_move
+.move_left:
+    dec  d                  ; candidate X = enemyX - 1
+    ld   b, d
+    ld   a, [EnemyY]
+    ld   c, a
+    call IsWalkable
+    or   a
+    jr   z, .vert_move
+    ld   a, b
+    ld   [EnemyX], a
 
-.go_down:
+.vert_move:
+    ; ----- move vertically towards player -----
     ld   a, [EnemyY]
-    inc  a
+    ld   e, a               ; E = current Y
+    ld   a, [PlayerY]
+    cp   e
+    jr   z, .check_collision
+    jr   c, .move_up        ; playerY < enemyY -> move up
+.move_down:
+    inc  e                  ; candidate Y = enemyY + 1
+    ld   b, [EnemyX]
+    ld   c, e
+    call IsWalkable
+    or   a
+    jr   z, .check_collision
+    ld   a, e
     ld   [EnemyY], a
     jr   .check_collision
-
-.go_up:
-    ld   a, [EnemyY]
-    dec  a
+.move_up:
+    dec  e                  ; candidate Y = enemyY - 1
+    ld   b, [EnemyX]
+    ld   c, e
+    call IsWalkable
+    or   a
+    jr   z, .check_collision
+    ld   a, e
     ld   [EnemyY], a
 
 .check_collision:
+    ; check collision with player
     ld   a, [EnemyX]
     ld   b, a
     ld   a, [PlayerX]
