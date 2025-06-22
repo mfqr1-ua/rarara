@@ -227,6 +227,9 @@ UpdateDone:
 .win_game:
     ld a, 1
     ld [GameOver], a
+    xor a
+    ld [CurrentNoteIndex], a
+    ld [NoteTimer], a
 UpdateReturn:
     ret
 

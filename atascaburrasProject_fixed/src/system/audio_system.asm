@@ -7,13 +7,22 @@ EXPORT UpdateAudioSystem
 
 ; Internal routine to play the current note
 PlayCurrentNote:
+    ; Calculate index offset (index * 3)
     ld a, [CurrentNoteIndex]
     ld c, a                ; c = index
-    sla a                  ; a = index * 2
-    add a, c               ; a = index * 3
+    sla a
+    add a, c
     ld e, a
     ld d, 0
+    ; Select normal or win sequence depending on game state
+    ld a, [GameOver]
+    or a
+    jr z, .use_normal
+    ld hl, WinNoteSequence
+    jr .add_offset
+.use_normal:
     ld hl, NoteSequence
+.add_offset:
     add hl, de             ; HL points to entry
     ld a, [hl+]
     ld [rNR23], a          ; frequency low
@@ -58,6 +67,17 @@ UpdateAudioSystem::
     ld hl, CurrentNoteIndex
     ld a, [hl]
     inc a
+    ld b, a                ; candidate index
+    ld a, [GameOver]
+    or a
+    jr z, .check_normal
+    ld a, b
+    cp WinNumNotes
+    jr c, .store
+    xor a
+    jr .store
+.check_normal:
+    ld a, b
     cp NumNotes
     jr c, .store
     xor a
@@ -77,3 +97,11 @@ NoteSequence:
     db $06, $07, 16  ; C5
     db $59, $07, 16  ; G5
 DEF NumNotes = 8
+
+; Short victory fanfare
+WinNoteSequence:
+    db $83, $07, 12  ; C6
+    db $59, $07, 12  ; G5
+    db $83, $07, 12  ; C6
+    db $06, $07, 16  ; C5
+DEF WinNumNotes = 4
