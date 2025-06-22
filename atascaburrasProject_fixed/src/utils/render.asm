@@ -171,7 +171,7 @@ ColLoop::
 ; WinMessage: cadena y longitud usando EQU
 WinMessage:
     db TILE_Y, TILE_O, TILE_U, TILE_SPACE, TILE_W, TILE_I, TILE_N
-WinMessageLen EQU . - WinMessage
+WinMessageLen: EQU . - WinMessage
 
 ; -----------------------------------------------------------------------------
 ; DisplayWinMessage: limpia fondo y escribe YOU WIN centrado
