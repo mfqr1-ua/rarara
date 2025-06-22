@@ -3,6 +3,7 @@ DEF rLCDC = $FF40
 DEF rSCX  = $FF43
 DEF rSCY  = $FF42
 DEF rJOYP = $FF00
+DEF rBGP  = $FF47
 
 ; Joypad bits and select mask
 DEF JOY_RIGHT      = $01
@@ -24,6 +25,10 @@ DEF TILE_W = $07
 DEF TILE_I = $08
 DEF TILE_N = $09
 DEF PLAYER_MOVE_DELAY = 8
+
+; Palette values
+DEF DEFAULT_PALETTE = $E4
+DEF WIN_PALETTE     = $1B
 
 ; Sound registers
 DEF rNR52 = $FF26

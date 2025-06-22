@@ -19,6 +19,8 @@ MainLoop:
     jp MainLoop
 
 Win:
-    call DisplayWinMessage
+    call StopMusic
+    call ApplyWinPalette
+    call PlayWinJingle
 End:
     jr End ; halt on game completion

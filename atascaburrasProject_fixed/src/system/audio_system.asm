@@ -4,6 +4,8 @@ SECTION "AudioSystem", ROM0
 
 EXPORT InitAudioSystem
 EXPORT UpdateAudioSystem
+EXPORT PlayWinJingle
+EXPORT StopMusic
 
 ; Internal routine to play the current note
 PlayCurrentNote:
@@ -77,3 +79,59 @@ NoteSequence:
     db $06, $07, 16  ; C5
     db $59, $07, 16  ; G5
 DEF NumNotes = 8
+
+;--------------------------------------------------
+; Stops currently playing music
+StopMusic:
+    xor a
+    ld [rNR52], a
+    ret
+
+;--------------------------------------------------
+; Simple victory jingle
+PlayWinJingle:
+    ld a, $80
+    ld [rNR52], a          ; enable sound
+    ld a, $77
+    ld [rNR50], a          ; max volume
+    ld a, $FF
+    ld [rNR51], a          ; route all channels
+
+    ld a, %11000000        ; 75% duty
+    ld [rNR21], a
+    ld a, $F1              ; volume envelope
+    ld [rNR22], a
+
+    ; First note
+    ld a, $C3
+    ld [rNR23], a
+    ld a, $87
+    ld [rNR24], a
+    ld b, 120
+.w1:
+    dec b
+    jr nz, .w1
+
+    ; Second note
+    ld a, $D6
+    ld [rNR23], a
+    ld a, $86 | $80
+    ld [rNR24], a
+    ld b, 120
+.w2:
+    dec b
+    jr nz, .w2
+
+    ; Third note
+    ld a, $E8
+    ld [rNR23], a
+    ld a, $85 | $80
+    ld [rNR24], a
+    ld b, 120
+.w3:
+    dec b
+    jr nz, .w3
+
+    xor a
+    ld [rNR52], a          ; stop sound
+    ret
