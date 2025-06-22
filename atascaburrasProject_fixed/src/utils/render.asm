@@ -2,9 +2,8 @@ SECTION "render", ROM0
 
 INCLUDE "src/utils/constants.asm"
 
-; External resources from UI module
-EXPORT Tiles8p8
-EXPORT TilesEnd
+; Tile data provided by the UI module
+; Labels defined in src/ui/tiles.asm
 
 EXPORT InitRender
 EXPORT RenderFrame
@@ -183,39 +182,66 @@ DrawMap::
     jr nz, .RowLoop
     ret
 
-; Displays "YOU WIN" centered on the screen
+; Window UI constants
+DEF WinWindowMapCols = 11
+DEF WinWindowMapRows = 5
+
+; Displays "YOU WIN" using the window layer
 DisplayWinMessage::
-    ; Wait for VBlank to safely update VRAM
+    ; Wait for VBlank before modifying VRAM
     call WaitVBlankStart
-    ; Hide the screen while preparing the win screen
     call SwitchOffScreen
 
-    ; Clear the entire background to blank tiles
-    ld hl, $9800
-    ld bc, $0400            ; 32x32 background size
-    xor a                   ; tile 0 is blank/white
-.clear_loop:
-    ld [hl+], a
-    dec bc
-    ld a, c
-    or b
-    jr nz, .clear_loop
-
-    ; Draw the win message centred on screen
-    ld hl, WinMessage
-    ld de, $9926            ; row 9, column 6
-    ld b, WinMessageLen
-.char_loop:
+    ; Write window tilemap
+    ld hl, WinWindowMap
+    ld de, $9C00                ; window tile map
+    ld b, WinWindowMapRows
+.row_loop:
+    ld c, WinWindowMapCols
+.col_loop:
     ld a, [hl+]
     ld [de], a
     inc de
+    dec c
+    jr nz, .col_loop
+    ld a, e
+    add a, 32 - WinWindowMapCols
+    ld e, a
+    ld a, d
+    adc a, 0
+    ld d, a
     dec b
-    jr nz, .char_loop
+    jr nz, .row_loop
 
-    ; Show the screen with the message
+    ; Position and enable the window
+    ld a, 40                    ; Y position (pixels)
+    ld [rWY], a
+    ld a, 39                    ; X position (pixels) = 4 tiles + 7
+    ld [rWX], a
+    ld a, [rLCDC]
+    set 5, a                   ; enable window
+    set 6, a                   ; window tile map at $9C00
+    ld [rLCDC], a
+
     call SwitchOnScreen
     ret
 
 WinMessage:
     db TILE_Y, TILE_O, TILE_U, MT_FLOOR, TILE_W, TILE_I, TILE_N
 DEF WinMessageLen = @-WinMessage
+
+; Tile map for the win window (11x5)
+WinWindowMap:
+    db TILE_UI_TL
+    REPT WinWindowMapCols-2
+        db TILE_UI_HOR
+    ENDR
+    db TILE_UI_TR
+    db TILE_UI_VERT, TILE_UI_GREY, TILE_UI_GREY, TILE_UI_GREY, TILE_UI_GREY, TILE_UI_GREY, TILE_UI_GREY, TILE_UI_GREY, TILE_UI_GREY, TILE_UI_GREY, TILE_UI_VERT
+    db TILE_UI_VERT, TILE_UI_GREY, TILE_Y, TILE_O, TILE_U, MT_FLOOR, TILE_W, TILE_I, TILE_N, TILE_UI_GREY, TILE_UI_VERT
+    db TILE_UI_VERT, TILE_UI_GREY, TILE_UI_GREY, TILE_UI_GREY, TILE_UI_GREY, TILE_UI_GREY, TILE_UI_GREY, TILE_UI_GREY, TILE_UI_GREY, TILE_UI_GREY, TILE_UI_VERT
+    db TILE_UI_BL
+    REPT WinWindowMapCols-2
+        db TILE_UI_HOR
+    ENDR
+    db TILE_UI_BR

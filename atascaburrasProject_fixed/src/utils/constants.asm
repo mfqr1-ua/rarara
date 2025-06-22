@@ -23,6 +23,18 @@ DEF TILE_U = $06
 DEF TILE_W = $07
 DEF TILE_I = $08
 DEF TILE_N = $09
+; UI tiles for the win window
+DEF TILE_UI_GREY = $0A
+DEF TILE_UI_HOR  = $0B
+DEF TILE_UI_VERT = $0C
+DEF TILE_UI_TL   = $0D
+DEF TILE_UI_TR   = $0E
+DEF TILE_UI_BL   = $0F
+DEF TILE_UI_BR   = $10
+
+; Window position registers
+DEF rWY  = $FF4A
+DEF rWX  = $FF4B
 DEF PLAYER_MOVE_DELAY = 8
 
 ; Sound registers

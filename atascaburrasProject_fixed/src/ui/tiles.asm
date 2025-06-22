@@ -26,4 +26,19 @@ Tiles8p8:
 ; Tile 9 - letter N
     DB $81,$C1,$A1,$91,$89,$85,$83,$81
 
+; Tile 10 - grey background (dithered)
+    DB $AA,$55,$AA,$55,$AA,$55,$AA,$55
+; Tile 11 - horizontal border
+    DB $FF,$00,$00,$00,$00,$00,$00,$FF
+; Tile 12 - vertical border
+    DB $81,$81,$81,$81,$81,$81,$81,$81
+; Tile 13 - top-left corner
+    DB $FF,$80,$80,$80,$80,$80,$80,$81
+; Tile 14 - top-right corner
+    DB $FF,$01,$01,$01,$01,$01,$01,$81
+; Tile 15 - bottom-left corner
+    DB $81,$80,$80,$80,$80,$80,$80,$FF
+; Tile 16 - bottom-right corner
+    DB $81,$01,$01,$01,$01,$01,$01,$FF
+
 TilesEnd:
