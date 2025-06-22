@@ -6,11 +6,13 @@ INCLUDE "src/ui/maps.asm"
 SECTION "Main", ROM0
 Start::
     call InitGameSystem
+    call InitAISystem
     call InitRender
     call InitAudioSystem
 
 MainLoop:
     call UpdateGameSystem
+    call UpdateAISystem
     call UpdateAudioSystem
     ld a, [GameOver]
     or a
