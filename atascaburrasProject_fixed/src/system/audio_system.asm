@@ -1,7 +1,7 @@
-SECTION "AudioSystem", ROM0
-
 INCLUDE "src/utils/constants.asm"
 INCLUDE "src/utils/memory.asm"
+
+SECTION "AudioSystem", ROM0
 
 EXPORT InitAudioSystem
 EXPORT UpdateAudioSystem
