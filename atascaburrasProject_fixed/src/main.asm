@@ -1,5 +1,4 @@
 INCLUDE "src/utils/constants.asm"
-INCLUDE "src/utils/memory.asm"
 
 INCLUDE "src/ui/tiles.asm"
 INCLUDE "src/ui/maps.asm"

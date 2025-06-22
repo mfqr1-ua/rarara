@@ -1,5 +1,4 @@
 INCLUDE "src/utils/constants.asm"
-INCLUDE "src/utils/memory.asm"
 
 SECTION "AudioSystem", ROM0
 
