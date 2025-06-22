@@ -19,6 +19,6 @@ MainLoop:
     jp MainLoop
 
 Win:
-    call DisplayWinMessage
+    call SetWinPalette
 End:
     jr End ; halt on game completion

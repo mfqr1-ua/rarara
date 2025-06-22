@@ -3,6 +3,7 @@ DEF rLCDC = $FF40
 DEF rSCX  = $FF43
 DEF rSCY  = $FF42
 DEF rJOYP = $FF00
+DEF rBGP  = $FF47
 
 ; Joypad bits and select mask
 DEF JOY_RIGHT      = $01
