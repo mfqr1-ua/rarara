@@ -20,5 +20,7 @@ MainLoop:
 
 Win:
     call SetWinPalette
-End:
-    jr End ; halt on game completion
+WinLoop:
+    call WaitVBlankStart
+    call UpdateAudioSystem
+    jr WinLoop

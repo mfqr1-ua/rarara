@@ -11,6 +11,7 @@ EXPORT RenderFrame
 EXPORT DrawMap
 EXPORT DisplayWinMessage
 EXPORT SetWinPalette
+EXPORT WaitVBlankStart
 
 
 WaitVBlankStart:
