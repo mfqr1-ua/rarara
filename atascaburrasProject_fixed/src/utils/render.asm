@@ -73,17 +73,23 @@ RenderFrame::
     ld l, a
     ld h, 0
     ; DE = y*4
-    sla l : rl h
-    sla l : rl h
+    sla l
+    rl h
+    sla l
+    rl h
     ld d, h
     ld e, l
     ; HL = y*16 (shift 4 veces)
     ld l, a
     ld h, 0
-    sla l : rl h
-    sla l : rl h
-    sla l : rl h
-    sla l : rl h
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h
     add hl, de            ; HL = y*20
     ; añadir x
     ld a, [PlayerPrevX]
@@ -107,11 +113,16 @@ RenderFrame::
     ld l, a
     ld h, 0
     ; HL = y*32 (shift 5 veces)
-    sla l : rl h
-    sla l : rl h
-    sla l : rl h
-    sla l : rl h
-    sla l : rl h
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h
     ; añadir x
     ld a, [PlayerX]
     ld e, a
@@ -141,7 +152,7 @@ DrawMap::
 RowLoop::
     ld c, MAP_WIDTH
 ColLoop::
-    ld a, [e]
+    ld a, [de]
     inc e
     ld [hl+], a
     dec c
@@ -160,7 +171,7 @@ ColLoop::
 ; WinMessage: cadena y longitud usando EQU
 WinMessage:
     db TILE_Y, TILE_O, TILE_U, TILE_SPACE, TILE_W, TILE_I, TILE_N
-WinMessageLen EQU . - WinMessage
+DEF WinMessageLen = @-WinMessage
 
 ; -----------------------------------------------------------------------------
 ; DisplayWinMessage: limpia fondo y escribe YOU WIN centrado
