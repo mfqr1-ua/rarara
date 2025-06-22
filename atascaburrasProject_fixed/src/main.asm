@@ -9,6 +9,8 @@ Start::
     call InitAISystem
     call InitRender
     call InitAudioSystem
+    ; Draw initial frame so the enemy is visible immediately
+    call RenderFrame
 
 MainLoop:
     call UpdateGameSystem
