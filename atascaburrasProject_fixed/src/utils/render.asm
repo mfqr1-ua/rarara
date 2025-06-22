@@ -97,7 +97,8 @@ ColLoop:
     add hl, hl
     add hl, hl            ; HL = y * 16
     add hl, de            ; HL = y * 20
-    ld e, [EnemyX]
+    ld a, [EnemyX]
+    ld e, a
     ld d, 0
     add hl, de            ; HL = tile offset
     ld a, [CurrentMapPtr]
@@ -205,7 +206,8 @@ RenderFrame::
     add hl, hl
     add hl, hl             ; HL = y * 16
     add hl, de             ; HL = y * 20
-    ld e, [EnemyPrevX]
+    ld a, [EnemyPrevX]
+    ld e, a
     ld d, 0
     add hl, de             ; HL = tile offset
     ld a, [CurrentMapPtr]

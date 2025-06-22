@@ -191,14 +191,14 @@ UpdateDone:
     ; Additionally, switch maps when standing to the left of an exit tile
     ld a, [PlayerX]
     cp MAP_WIDTH-1            ; Ensure within bounds
-    jr z, UpdateReturn
+    jp z, UpdateReturn
     inc a                     ; check tile to the right
     ld b, a
     ld a, [PlayerY]
     ld c, a
     call GetTileAt
     cp MT_EXIT
-    jr nz, UpdateReturn
+    jp nz, UpdateReturn
 
 .change_map:
     ld hl, MapIndex
@@ -247,7 +247,7 @@ UpdateDone:
     call DrawMap
     xor a
     ld [MoveCooldown], a
-    jr UpdateReturn
+    jp UpdateReturn
 .win_game:
     ld a, 1
     ld [GameOver], a
