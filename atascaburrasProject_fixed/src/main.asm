@@ -8,9 +8,11 @@ Start::
     call InitGameSystem
     call InitRender
     call InitAudioSystem
+    call InitAISystem
 
 MainLoop:
     call UpdateGameSystem
+    call UpdateAISystem
     call UpdateAudioSystem
     ld a, [GameOver]
     or a
