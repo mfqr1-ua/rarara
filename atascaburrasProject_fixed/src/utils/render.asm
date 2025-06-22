@@ -10,6 +10,19 @@ EXPORT InitRender
 EXPORT RenderFrame
 EXPORT DrawMap
 EXPORT DisplayWinMessage
+; Fills the entire background with blank tiles
+ClearScreen:
+    call WaitVBlankStart
+    ld hl, $9800
+    ld bc, $400            ; 32x32 tile map
+    ld a, TILE_SPACE
+.clear_loop:
+    ld [hl+], a
+    dec bc
+    ld a, b
+    or c
+    jr nz, .clear_loop
+    ret
 
 
 WaitVBlankStart:
@@ -183,8 +196,9 @@ DrawMap::
     jr nz, .RowLoop
     ret
 
-; Displays "YOU WIN" centered on the screen
+; Displays "YOU WIN" centered on a blank screen
 DisplayWinMessage::
+    call ClearScreen
     call WaitVBlankStart
     ld hl, WinMessage
     ld de, $9926            ; row 9, column 6
