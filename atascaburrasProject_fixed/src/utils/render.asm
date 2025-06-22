@@ -138,6 +138,29 @@ RenderFrame::
     ld a, b
     ld [hl], a              ; restore background tile
 
+    ; Draw enemy at its position
+    ld a, [EnemyY]
+    ld l, a
+    ld h, 0
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h                    ; HL = 32 * enemy Y
+    ld a, [EnemyX]
+    ld e, a
+    ld d, 0
+    add hl, de
+    ld de, $9800
+    add hl, de
+    ld a, MT_ENEMY
+    ld [hl], a              ; draw enemy tile
+
     ; Draw player at current position
     ld a, [PlayerY]
     ld l, a

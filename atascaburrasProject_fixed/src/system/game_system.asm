@@ -20,6 +20,11 @@ InitGameSystem::
     ld [CurrentMapPtr], a      ; almacena L en CurrentMapPtr
     ld a, h                    ; A ← byte alto de HL
     ld [CurrentMapPtr+1], a    ; almacena H en CurrentMapPtr+1
+    ld hl, EnemyPosTable
+    ld a, [hl+]
+    ld [EnemyX], a
+    ld a, [hl]
+    ld [EnemyY], a
     xor a
     ld [GameOver], a
     ld [MoveCooldown], a
@@ -144,6 +149,7 @@ CheckDown:
     ld [MoveCooldown], a
 
 UpdateDone:
+    call CheckEnemyCollision
     ; If the player reaches the bottom-right corner, switch maps
     ld a, [PlayerX]
     cp MAP_WIDTH-1
@@ -214,6 +220,16 @@ UpdateDone:
     ld [CurrentMapPtr], a
     ld a, h
     ld [CurrentMapPtr+1], a
+    ld a, [MapIndex]
+    ld l, a
+    ld h, 0
+    add hl, hl
+    ld de, EnemyPosTable
+    add hl, de
+    ld a, [hl+]
+    ld [EnemyX], a
+    ld a, [hl]
+    ld [EnemyY], a
     ld a, 1
     ld [PlayerX], a
     ld [PlayerPrevX], a
@@ -232,4 +248,22 @@ UpdateDone:
     ld [NoteTimer], a
 UpdateReturn:
     ret
+
+CheckEnemyCollision:
+    ld a, [PlayerX]
+    ld b, a
+    ld a, [EnemyX]
+    cp b
+    jr nz, .no
+    ld a, [PlayerY]
+    ld b, a
+    ld a, [EnemyY]
+    cp b
+    jr nz, .no
+    jp Start
+.no:
+    ret
+
+EnemyPosTable:
+    db 10,9, 5,9, 10,10, 5,5, 10,8
 
