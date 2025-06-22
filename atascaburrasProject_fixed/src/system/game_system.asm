@@ -157,7 +157,7 @@ UpdateDone:
     xor a
     ld [CurrentNoteIndex], a
     ld [NoteTimer], a
-    jr UpdateReturn
+    jp UpdateReturn
 
 .continue_update:
     ; If the player reaches the bottom-right corner, switch maps
