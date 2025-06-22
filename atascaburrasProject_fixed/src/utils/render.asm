@@ -87,7 +87,56 @@ ColLoop:
 ; Renders the current frame (map and player)
 RenderFrame::
     call WaitVBlankStart
-    ; Placeholder for additional rendering
+    ; Restore tile at previous enemy position
+    ld a, [EnemyPrevY]
+    ld l, a
+    ld h, 0
+    add hl, hl
+    add hl, hl
+    ld d, h
+    ld e, l                  ; DE = y*4
+    ld a, [EnemyPrevY]
+    ld l, a
+    ld h, 0
+    add hl, hl
+    add hl, hl
+    add hl, hl
+    add hl, hl               ; HL = y*16
+    add hl, de               ; HL = y*20
+    ld a, [EnemyPrevX]
+    ld e, a
+    ld d, 0
+    add hl, de               ; HL = tile offset
+    ld a, [CurrentMapPtr]
+    ld e, a
+    ld a, [CurrentMapPtr+1]
+    ld d, a
+    add hl, de
+    ld b, [hl]
+
+    ; Compute VRAM address for previous enemy position
+    ld a, [EnemyPrevY]
+    ld l, a
+    ld h, 0
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h                    ; HL = 32 * prevY
+    ld a, [EnemyPrevX]
+    ld e, a
+    ld d, 0
+    add hl, de
+    ld de, $9800
+    add hl, de
+    ld a, b
+    ld [hl], a              ; restore background tile
+
     ; Restore tile at previous player position
     ld a, [PlayerPrevY]
     ld l, a
@@ -137,6 +186,29 @@ RenderFrame::
     add hl, de
     ld a, b
     ld [hl], a              ; restore background tile
+
+    ; Draw enemy at current position
+    ld a, [EnemyY]
+    ld l, a
+    ld h, 0
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h                    ; HL = 32 * Y
+    ld a, [EnemyX]
+    ld e, a
+    ld d, 0
+    add hl, de
+    ld de, $9800
+    add hl, de
+    ld a, TILE_ENEMY
+    ld [hl], a              ; draw enemy tile
 
     ; Draw player at current position
     ld a, [PlayerY]
