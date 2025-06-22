@@ -10,6 +10,7 @@ EXPORT InitRender
 EXPORT RenderFrame
 EXPORT DrawMap
 EXPORT DisplayWinMessage
+EXPORT SetWinPalette
 
 
 WaitVBlankStart:
@@ -33,6 +34,9 @@ SwitchOnScreen:
 ; Initializes tile data and screen settings
 InitRender::
     call SwitchOffScreen
+
+    ld a, PALETTE_DEFAULT
+    ld [rBGP], a
 
     ld a, [rLCDC]
     set 4, a                      ; use $8000 tile data
@@ -219,3 +223,8 @@ DisplayWinMessage::
 WinMessage:
     db TILE_Y, TILE_O, TILE_U, MT_FLOOR, TILE_W, TILE_I, TILE_N
 DEF WinMessageLen = @-WinMessage
+
+SetWinPalette::
+    ld a, PALETTE_WIN
+    ld [rBGP], a
+    ret

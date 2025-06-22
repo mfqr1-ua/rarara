@@ -23,6 +23,7 @@ InitGameSystem::
     xor a
     ld [GameOver], a
     ld [MoveCooldown], a
+    ld [WinStarted], a
 
     ret
 

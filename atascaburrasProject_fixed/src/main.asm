@@ -19,6 +19,17 @@ MainLoop:
     jp MainLoop
 
 Win:
-    call DisplayWinMessage
-End:
-    jr End ; halt on game completion
+    call StartWinState
+WinLoop:
+    call UpdateAudioSystem
+    jr WinLoop
+
+StartWinState:
+    ld a, [WinStarted]
+    or a
+    ret nz
+    call SetWinPalette
+    call StartWinMusic
+    ld a, 1
+    ld [WinStarted], a
+    ret

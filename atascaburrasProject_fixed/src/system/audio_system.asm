@@ -4,6 +4,7 @@ SECTION "AudioSystem", ROM0
 
 EXPORT InitAudioSystem
 EXPORT UpdateAudioSystem
+EXPORT StartWinMusic
 
 ; Internal routine to play the current note
 PlayCurrentNote:
@@ -13,7 +14,10 @@ PlayCurrentNote:
     add a, c               ; a = index * 3
     ld e, a
     ld d, 0
-    ld hl, NoteSequence
+    ld a, [CurrentSequencePtr]
+    ld l, a
+    ld a, [CurrentSequencePtr+1]
+    ld h, a
     add hl, de             ; HL points to entry
     ld a, [hl+]
     ld [rNR23], a          ; frequency low
@@ -42,6 +46,13 @@ InitAudioSystem::
     xor a
     ld [CurrentNoteIndex], a
     ld [NoteTimer], a
+    ld hl, NoteSequence
+    ld a, l
+    ld [CurrentSequencePtr], a
+    ld a, h
+    ld [CurrentSequencePtr+1], a
+    ld a, NumNotes
+    ld [CurrentNumNotes], a
     call PlayCurrentNote
     ret
 
@@ -58,11 +69,30 @@ UpdateAudioSystem::
     ld hl, CurrentNoteIndex
     ld a, [hl]
     inc a
-    cp NumNotes
-    jr c, .store
+    ld b, a
+    ld a, [CurrentNumNotes]
+    cp b
+    jr c, .wrap
+    ld a, b
+    jr .store
+.wrap:
     xor a
 .store:
     ld [hl], a
+    call PlayCurrentNote
+    ret
+
+StartWinMusic:
+    ld hl, WinSequence
+    ld a, l
+    ld [CurrentSequencePtr], a
+    ld a, h
+    ld [CurrentSequencePtr+1], a
+    ld a, NumWinNotes
+    ld [CurrentNumNotes], a
+    xor a
+    ld [CurrentNoteIndex], a
+    ld [NoteTimer], a
     call PlayCurrentNote
     ret
 
@@ -77,3 +107,9 @@ NoteSequence:
     db $06, $07, 16  ; C5
     db $59, $07, 16  ; G5
 DEF NumNotes = 8
+
+WinSequence:
+    db $83, $07, 16  ; C6
+    db $59, $07, 16  ; G5
+    db $83, $07, 32  ; C6 sustained
+DEF NumWinNotes = 3
