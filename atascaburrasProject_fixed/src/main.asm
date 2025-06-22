@@ -8,9 +8,11 @@ SECTION "Main", ROM0
 Start::
     call InitGameSystem
     call InitRender
+    call InitAudioSystem
 
 MainLoop:
     call UpdateGameSystem
+    call UpdateAudioSystem
     ld a, [GameOver]
     or a
     jr nz, Win
