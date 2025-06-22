@@ -2,9 +2,8 @@ SECTION "render", ROM0
 
 INCLUDE "src/utils/constants.asm"
 
-; External resources from UI module
-IMPORT Tiles8p8
-IMPORT TilesEnd
+; Tile data provided by the UI module
+; Labels defined in src/ui/tiles.asm
 
 EXPORT InitRender
 EXPORT RenderFrame
