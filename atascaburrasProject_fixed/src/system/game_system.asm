@@ -144,6 +144,22 @@ CheckDown:
     ld [MoveCooldown], a
 
 UpdateDone:
+    ; Check if player stepped on an enemy tile
+    ld a, [PlayerX]
+    ld b, a
+    ld a, [PlayerY]
+    ld c, a
+    call GetTileAt
+    cp MT_ENEMY
+    jr nz, .continue_update
+    ld a, 1
+    ld [GameOver], a
+    xor a
+    ld [CurrentNoteIndex], a
+    ld [NoteTimer], a
+    jr UpdateReturn
+
+.continue_update:
     ; If the player reaches the bottom-right corner, switch maps
     ld a, [PlayerX]
     cp MAP_WIDTH-1
