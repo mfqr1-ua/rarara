@@ -14,6 +14,14 @@ InitGameSystem::
     ld [PlayerY], a            ; PlayerY   ← 1
     ld [PlayerPrevY], a
 
+    ; Set enemy initial position (static)
+    ld a, 10
+    ld [EnemyX], a
+    ld [EnemyPrevX], a
+    ld a, 9
+    ld [EnemyY], a
+    ld [EnemyPrevY], a
+
     ld hl, Map1                ; HL ← dirección de Map1
 
     ld a, l                    ; A ← byte bajo de HL
