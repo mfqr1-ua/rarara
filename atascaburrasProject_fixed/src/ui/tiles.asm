@@ -25,7 +25,7 @@ Tiles8p8:
     DB $FF,$18,$18,$18,$18,$18,$18,$FF
 ; Tile 9 - letter N
     DB $81,$C1,$A1,$91,$89,$85,$83,$81
-; Tile 10 - enemy skull
-    DB $3C,$42,$A5,$81,$A5,$99,$42,$3C
+; Tile 10 - enemy doll
+    DB $3C,$42,$42,$3C,$7E,$18,$24,$24
 
 TilesEnd:
