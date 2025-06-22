@@ -66,7 +66,8 @@ UpdateAISystem::
     jr   c, .move_up        ; playerY < enemyY -> move up
 .move_down:
     inc  e                  ; candidate Y = enemyY + 1
-    ld   b, [EnemyX]
+    ld   a, [EnemyX]
+    ld   b, a
     ld   c, e
     call IsWalkable
     or   a
@@ -76,7 +77,8 @@ UpdateAISystem::
     jr   .check_collision
 .move_up:
     dec  e                  ; candidate Y = enemyY - 1
-    ld   b, [EnemyX]
+    ld   a, [EnemyX]
+    ld   b, a
     ld   c, e
     call IsWalkable
     or   a
