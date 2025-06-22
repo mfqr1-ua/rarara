@@ -3,8 +3,8 @@ SECTION "render", ROM0
 INCLUDE "src/utils/constants.asm"
 
 ; External resources from UI module
-EXPORT Tiles8p8
-EXPORT TilesEnd
+IMPORT Tiles8p8
+IMPORT TilesEnd
 
 EXPORT InitRender
 EXPORT RenderFrame
@@ -183,6 +183,10 @@ DrawMap::
     jr nz, .RowLoop
     ret
 
+; Window UI constants
+DEF WinWindowMapCols = 11
+DEF WinWindowMapRows = 5
+
 ; Displays "YOU WIN" using the window layer
 DisplayWinMessage::
     ; Wait for VBlank before modifying VRAM
@@ -230,7 +234,7 @@ DEF WinMessageLen = @-WinMessage
 ; Tile map for the win window (11x5)
 WinWindowMap:
     db TILE_UI_TL
-    REPT 9
+    REPT WinWindowMapCols-2
         db TILE_UI_HOR
     ENDR
     db TILE_UI_TR
@@ -238,9 +242,7 @@ WinWindowMap:
     db TILE_UI_VERT, TILE_UI_GREY, TILE_Y, TILE_O, TILE_U, MT_FLOOR, TILE_W, TILE_I, TILE_N, TILE_UI_GREY, TILE_UI_VERT
     db TILE_UI_VERT, TILE_UI_GREY, TILE_UI_GREY, TILE_UI_GREY, TILE_UI_GREY, TILE_UI_GREY, TILE_UI_GREY, TILE_UI_GREY, TILE_UI_GREY, TILE_UI_GREY, TILE_UI_VERT
     db TILE_UI_BL
-    REPT 9
+    REPT WinWindowMapCols-2
         db TILE_UI_HOR
     ENDR
     db TILE_UI_BR
-DEF WinWindowMapCols = 11
-DEF WinWindowMapRows = 5
