@@ -36,8 +36,8 @@ SwitchOnScreen:
 InitRender::
     call SwitchOffScreen
 
-    ; Use default grayscale palette
-    ld a, $E4
+    ; Use palette with black sprites for visibility
+    ld a, $EC
     ld [rBGP], a
 
     ld a, [rLCDC]
@@ -80,6 +80,29 @@ ColLoop:
     ld h, a
     dec b
     jr nz, RowLoop
+
+    ; --- dibuja enemigo inicial ---
+    ld a, [EnemyY]
+    ld l, a
+    ld h, 0
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h                    ; HL = 32 * EnemyY
+    ld a, [EnemyX]
+    ld e, a
+    ld d, 0
+    add hl, de
+    ld de, $9800
+    add hl, de
+    ld a, MT_ENEMY
+    ld [hl], a
 
     call SwitchOnScreen
     ret
@@ -160,6 +183,80 @@ RenderFrame::
     add hl, de
     ld a, MT_PLAYER
     ld [hl], a              ; draw player tile
+
+    ; --- restaurar fondo en posición anterior de enemigo ---
+    ld a, [EnemyPrevY]
+    ld l, a
+    ld h, 0
+    add hl, hl
+    add hl, hl
+    ld d, h
+    ld e, l                  ; DE = y*4
+    ld a, [EnemyPrevY]
+    ld l, a
+    ld h, 0
+    add hl, hl
+    add hl, hl
+    add hl, hl
+    add hl, hl               ; HL = y*16
+    add hl, de               ; HL = y*20
+    ld a, [EnemyPrevX]
+    ld e, a
+    ld d, 0
+    add hl, de               ; HL = tile offset
+    ld a, [CurrentMapPtr]
+    ld e, a
+    ld a, [CurrentMapPtr+1]
+    ld d, a
+    add hl, de
+    ld b, [hl]               ; B = original tile
+
+    ; Compute VRAM address for previous enemy position
+    ld a, [EnemyPrevY]
+    ld l, a
+    ld h, 0
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h                    ; HL = 32 * prevY
+    ld a, [EnemyPrevX]
+    ld e, a
+    ld d, 0
+    add hl, de
+    ld de, $9800
+    add hl, de
+    ld a, b
+    ld [hl], a              ; restore background tile
+
+    ; --- dibujar enemigo en su nueva posición ---
+    ld a, [EnemyY]
+    ld l, a
+    ld h, 0
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h                    ; HL = 32 * Y
+    ld a, [EnemyX]
+    ld e, a
+    ld d, 0
+    add hl, de
+    ld de, $9800
+    add hl, de
+    ld a, MT_ENEMY
+    ld [hl], a
+
     ret
 
 ; Draws the current map pointed by CurrentMapPtr to the background
