@@ -100,8 +100,10 @@ DEF NumNotes = 8
 
 ; Short victory fanfare
 WinNoteSequence:
-    db $83, $07, 12  ; C6
+    db $06, $07, 12  ; C5
+    db $39, $07, 12  ; E5
     db $59, $07, 12  ; G5
     db $83, $07, 12  ; C6
-    db $06, $07, 16  ; C5
-DEF WinNumNotes = 4
+    db $59, $07, 12  ; G5
+    db $39, $07, 16  ; E5
+DEF WinNumNotes = 6
