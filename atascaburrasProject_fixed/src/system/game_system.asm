@@ -320,11 +320,11 @@ EnemyPosTable:
     ; Map1 enemies
     db 3,3, 10,7, 16,14
     ; Map2 enemies
-    db 10,5, 5,11, 17,9
+    db 4,3, 12,10, 17,13
     ; Map3 enemies
-    db 5,9, 12,4, 15,15
+    db 2,5, 13,8, 18,3
     ; Map4 enemies
-    db 12,9, 4,10, 17,3
+    db 4,4, 10,12, 15,7
     ; Map5 enemies
-    db 8,8, 6,13, 14,5
+    db 3,9, 14,4, 18,15
 
