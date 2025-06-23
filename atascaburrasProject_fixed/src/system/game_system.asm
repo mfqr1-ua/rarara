@@ -22,17 +22,9 @@ InitGameSystem::
     ld [CurrentMapPtr+1], a    ; almacena H en CurrentMapPtr+1
     ld hl, EnemyPosTable
     ld a, [hl+]
-    ld [Enemy1X], a
-    ld a, [hl+]
-    ld [Enemy1Y], a
-    ld a, [hl+]
-    ld [Enemy2X], a
-    ld a, [hl+]
-    ld [Enemy2Y], a
-    ld a, [hl+]
-    ld [Enemy3X], a
+    ld [EnemyX], a
     ld a, [hl]
-    ld [Enemy3Y], a
+    ld [EnemyY], a
     xor a
     ld [GameOver], a
     ld [MoveCooldown], a
@@ -232,24 +224,12 @@ UpdateDone:
     ld l, a
     ld h, 0
     add hl, hl               ; HL = index*2
-    ld b, l
-    ld c, h
-    add hl, bc               ; HL = index*3
-    add hl, hl               ; HL = index*6
     ld de, EnemyPosTable
     add hl, de
     ld a, [hl+]
-    ld [Enemy1X], a
-    ld a, [hl+]
-    ld [Enemy1Y], a
-    ld a, [hl+]
-    ld [Enemy2X], a
-    ld a, [hl+]
-    ld [Enemy2Y], a
-    ld a, [hl+]
-    ld [Enemy3X], a
+    ld [EnemyX], a
     ld a, [hl]
-    ld [Enemy3Y], a
+    ld [EnemyY], a
     ld a, 1
     ld [PlayerX], a
     ld [PlayerPrevX], a
@@ -281,34 +261,12 @@ CheckEnemyCollision:
 
     ld a, [PlayerX]
     ld b, a
-    ld a, [Enemy1X]
-    cp b
-    jr nz, .check_enemy2
-    ld a, [PlayerY]
-    ld b, a
-    ld a, [Enemy1Y]
-    cp b
-    jr z, .death
-.check_enemy2:
-    ld a, [PlayerX]
-    ld b, a
-    ld a, [Enemy2X]
-    cp b
-    jr nz, .check_enemy3
-    ld a, [PlayerY]
-    ld b, a
-    ld a, [Enemy2Y]
-    cp b
-    jr z, .death
-.check_enemy3:
-    ld a, [PlayerX]
-    ld b, a
-    ld a, [Enemy3X]
+    ld a, [EnemyX]
     cp b
     jr nz, .no
     ld a, [PlayerY]
     ld b, a
-    ld a, [Enemy3Y]
+    ld a, [EnemyY]
     cp b
     jr nz, .no
 .death:
@@ -317,14 +275,14 @@ CheckEnemyCollision:
     ret
 
 EnemyPosTable:
-    ; Map1 enemies
-    db 3,3, 10,7, 16,14
-    ; Map2 enemies
-    db 4,3, 12,10, 17,13
-    ; Map3 enemies
-    db 2,5, 13,8, 18,3
-    ; Map4 enemies
-    db 4,4, 10,12, 15,7
-    ; Map5 enemies
-    db 3,9, 14,4, 18,15
+    ; Map1 enemy
+    db 3,3
+    ; Map2 enemy
+    db 4,3
+    ; Map3 enemy
+    db 2,5
+    ; Map4 enemy
+    db 4,4
+    ; Map5 enemy
+    db 3,9
 

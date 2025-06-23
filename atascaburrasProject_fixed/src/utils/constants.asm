@@ -18,8 +18,8 @@ DEF MT_FLOOR = $00
 DEF MT_WALL  = $01
 DEF MT_EXIT  = $02
 DEF MT_PLAYER = $03
-DEF MT_ENEMY = $0A ; tile index for enemy graphic
-DEF NUM_ENEMIES = 3
+; Use the same graphic as the player for the enemy
+DEF MT_ENEMY = MT_PLAYER
 DEF TILE_Y = $04
 DEF TILE_O = $05
 DEF TILE_U = $06
