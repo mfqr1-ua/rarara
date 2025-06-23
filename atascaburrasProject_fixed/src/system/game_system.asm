@@ -274,6 +274,7 @@ CheckEnemyCollision:
     ld a, [EnemyY]
     cp b
     jr z, .death
+.no:
     ret
 .death:
     jp Start
