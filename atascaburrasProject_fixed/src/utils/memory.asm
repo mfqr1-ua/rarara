@@ -12,12 +12,8 @@ EXPORT GameOver
 EXPORT MoveCooldown
 EXPORT CurrentNoteIndex
 EXPORT NoteTimer
-EXPORT Enemy1X
-EXPORT Enemy1Y
-EXPORT Enemy2X
-EXPORT Enemy2Y
-EXPORT Enemy3X
-EXPORT Enemy3Y
+EXPORT EnemyX
+EXPORT EnemyY
 
 ; Variables stored in WRAM cannot contain initialised data.
 ; Reserve the required space and initialise them at runtime instead.
@@ -31,9 +27,5 @@ GameOver:      ds 1
 MoveCooldown:  ds 1
 CurrentNoteIndex: ds 1
 NoteTimer:  ds 1
-Enemy1X:     ds 1
-Enemy1Y:     ds 1
-Enemy2X:     ds 1
-Enemy2Y:     ds 1
-Enemy3X:     ds 1
-Enemy3Y:     ds 1
+EnemyX:     ds 1
+EnemyY:     ds 1

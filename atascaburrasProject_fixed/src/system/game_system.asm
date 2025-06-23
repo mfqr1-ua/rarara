@@ -22,17 +22,9 @@ InitGameSystem::
     ld [CurrentMapPtr+1], a    ; almacena H en CurrentMapPtr+1
     ld hl, EnemyPosTable
     ld a, [hl+]
-    ld [Enemy1X], a
-    ld a, [hl+]
-    ld [Enemy1Y], a
-    ld a, [hl+]
-    ld [Enemy2X], a
-    ld a, [hl+]
-    ld [Enemy2Y], a
-    ld a, [hl+]
-    ld [Enemy3X], a
+    ld [EnemyX], a
     ld a, [hl]
-    ld [Enemy3Y], a
+    ld [EnemyY], a
     xor a
     ld [GameOver], a
     ld [MoveCooldown], a
@@ -231,25 +223,13 @@ UpdateDone:
     ld a, [MapIndex]
     ld l, a
     ld h, 0
-    add hl, hl               ; *2
-    ld b, h
-    ld c, l                  ; BC = index*2
-    add hl, hl               ; *4
-    add hl, bc               ; *6
+    add hl, hl               ; *2 -> bytes per entry
     ld de, EnemyPosTable
     add hl, de
     ld a, [hl+]
-    ld [Enemy1X], a
-    ld a, [hl+]
-    ld [Enemy1Y], a
-    ld a, [hl+]
-    ld [Enemy2X], a
-    ld a, [hl+]
-    ld [Enemy2Y], a
-    ld a, [hl+]
-    ld [Enemy3X], a
+    ld [EnemyX], a
     ld a, [hl]
-    ld [Enemy3Y], a
+    ld [EnemyY], a
     ld a, 1
     ld [PlayerX], a
     ld [PlayerPrevX], a
@@ -279,53 +259,30 @@ CheckEnemyCollision:
     cp MT_ENEMY
     jr z, .death
 
-    ; Check against enemy 1
     ld a, [PlayerX]
     ld b, a
-    ld a, [Enemy1X]
-    cp b
-    jr nz, .check_e2
-    ld a, [PlayerY]
-    ld b, a
-    ld a, [Enemy1Y]
-    cp b
-    jr z, .death
-.check_e2:
-    ld a, [PlayerX]
-    ld b, a
-    ld a, [Enemy2X]
-    cp b
-    jr nz, .check_e3
-    ld a, [PlayerY]
-    ld b, a
-    ld a, [Enemy2Y]
-    cp b
-    jr z, .death
-.check_e3:
-    ld a, [PlayerX]
-    ld b, a
-    ld a, [Enemy3X]
+    ld a, [EnemyX]
     cp b
     jr nz, .no
     ld a, [PlayerY]
     ld b, a
-    ld a, [Enemy3Y]
+    ld a, [EnemyY]
     cp b
-    jr z, .death
-.no:
-    ret
+    jr nz, .no
 .death:
     jp Start
+.no:
+    ret
 
 EnemyPosTable:
     ; Map1
-    db 3,3, 5,6, 7,4
+    db 3,3
     ; Map2
-    db 2,2, 10,5, 8,7
+    db 10,5
     ; Map3
-    db 2,12, 5,9, 15,14
+    db 5,9
     ; Map4
-    db 5,4, 12,9, 5,14
+    db 12,9
     ; Map5
-    db 5,5, 8,8, 12,12
+    db 8,8
 
