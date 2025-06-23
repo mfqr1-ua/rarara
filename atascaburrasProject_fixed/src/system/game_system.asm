@@ -250,6 +250,16 @@ UpdateReturn:
     ret
 
 CheckEnemyCollision:
+    ; Kill the player if standing on an enemy tile
+    ld a, [PlayerX]
+    ld b, a
+    ld a, [PlayerY]
+    ld c, a
+    call GetTileAt
+    cp MT_ENEMY
+    jr z, .death
+
+    ; Also check against the dynamic enemy position
     ld a, [PlayerX]
     ld b, a
     ld a, [EnemyX]
@@ -260,6 +270,7 @@ CheckEnemyCollision:
     ld a, [EnemyY]
     cp b
     jr nz, .no
+.death:
     jp Start
 .no:
     ret
