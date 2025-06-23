@@ -22,17 +22,9 @@ InitGameSystem::
     ld [CurrentMapPtr+1], a    ; almacena H en CurrentMapPtr+1
     ld hl, EnemyPosTable
     ld a, [hl+]
-    ld [Enemy1X], a
-    ld a, [hl+]
-    ld [Enemy1Y], a
-    ld a, [hl+]
-    ld [Enemy2X], a
-    ld a, [hl+]
-    ld [Enemy2Y], a
-    ld a, [hl+]
-    ld [Enemy3X], a
+    ld [EnemyX], a
     ld a, [hl]
-    ld [Enemy3Y], a
+    ld [EnemyY], a
     xor a
     ld [GameOver], a
     ld [MoveCooldown], a
@@ -181,14 +173,14 @@ UpdateDone:
     ; Additionally, switch maps when standing to the left of an exit tile
     ld a, [PlayerX]
     cp MAP_WIDTH-1            ; Ensure within bounds
-    jr z, UpdateReturn
+    jp z, UpdateReturn
     inc a                     ; check tile to the right
     ld b, a
     ld a, [PlayerY]
     ld c, a
     call GetTileAt
     cp MT_EXIT
-    jr nz, UpdateReturn
+    jp nz, UpdateReturn
 
 .change_map:
     ld hl, MapIndex
@@ -239,17 +231,9 @@ UpdateDone:
     ld de, EnemyPosTable
     add hl, de
     ld a, [hl+]
-    ld [Enemy1X], a
-    ld a, [hl+]
-    ld [Enemy1Y], a
-    ld a, [hl+]
-    ld [Enemy2X], a
-    ld a, [hl+]
-    ld [Enemy2Y], a
-    ld a, [hl+]
-    ld [Enemy3X], a
+    ld [EnemyX], a
     ld a, [hl]
-    ld [Enemy3Y], a
+    ld [EnemyY], a
     ld a, 1
     ld [PlayerX], a
     ld [PlayerPrevX], a
@@ -259,7 +243,7 @@ UpdateDone:
     call DrawMap
     xor a
     ld [MoveCooldown], a
-    jr UpdateReturn
+    jp UpdateReturn
 .win_game:
     ld a, 1
     ld [GameOver], a
@@ -279,54 +263,30 @@ CheckEnemyCollision:
     cp MT_ENEMY
     jr z, .death
 
-    ; Check against each dynamic enemy
+    ; Check against the dynamic enemy
     ld a, [PlayerX]
     ld b, a
-    ld a, [Enemy1X]
-    cp b
-    jr nz, .check2
-    ld a, [PlayerY]
-    ld b, a
-    ld a, [Enemy1Y]
-    cp b
-    jr z, .death
-.check2:
-    ld a, [PlayerX]
-    ld b, a
-    ld a, [Enemy2X]
-    cp b
-    jr nz, .check3
-    ld a, [PlayerY]
-    ld b, a
-    ld a, [Enemy2Y]
-    cp b
-    jr z, .death
-.check3:
-    ld a, [PlayerX]
-    ld b, a
-    ld a, [Enemy3X]
+    ld a, [EnemyX]
     cp b
     jr nz, .no
     ld a, [PlayerY]
     ld b, a
-    ld a, [Enemy3Y]
+    ld a, [EnemyY]
     cp b
     jr z, .death
-    jr .no
+    ret
 .death:
     jp Start
-.no:
-    ret
 
 EnemyPosTable:
     ; Map1
-    db 3,3, 10,5, 17,7
+    db 3,3
     ; Map2
-    db 4,4, 10,10, 15,2
+    db 4,4
     ; Map3
-    db 2,12, 8,6, 18,10
+    db 2,12
     ; Map4
-    db 3,3, 10,8, 14,14
+    db 3,3
     ; Map5
-    db 5,5, 12,7, 17,15
+    db 5,5
 
