@@ -25,7 +25,7 @@ Tiles8p8:
     DB $FF,$18,$18,$18,$18,$18,$18,$FF
 ; Tile 9 - letter N
     DB $81,$C1,$A1,$91,$89,$85,$83,$81
-; Tile 10 - enemy (same as player)
-    DB $3C,$42,$81,$81,$81,$81,$42,$3C
+; Tile 10 - enemy (stick figure)
+    DB $18,$3C,$7E,$18,$18,$24,$24,$42
 
 TilesEnd:
