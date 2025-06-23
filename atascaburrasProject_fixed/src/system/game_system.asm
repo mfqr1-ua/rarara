@@ -22,9 +22,17 @@ InitGameSystem::
     ld [CurrentMapPtr+1], a    ; almacena H en CurrentMapPtr+1
     ld hl, EnemyPosTable
     ld a, [hl+]
-    ld [EnemyX], a
+    ld [Enemy1X], a
+    ld a, [hl+]
+    ld [Enemy1Y], a
+    ld a, [hl+]
+    ld [Enemy2X], a
+    ld a, [hl+]
+    ld [Enemy2Y], a
+    ld a, [hl+]
+    ld [Enemy3X], a
     ld a, [hl]
-    ld [EnemyY], a
+    ld [Enemy3Y], a
     xor a
     ld [GameOver], a
     ld [MoveCooldown], a
@@ -223,13 +231,25 @@ UpdateDone:
     ld a, [MapIndex]
     ld l, a
     ld h, 0
-    add hl, hl               ; two bytes per map
+    add hl, hl               ; HL = index*2
+    ld b, l
+    ld c, h
+    add hl, bc               ; HL = index*3
+    add hl, hl               ; HL = index*6
     ld de, EnemyPosTable
     add hl, de
     ld a, [hl+]
-    ld [EnemyX], a
+    ld [Enemy1X], a
+    ld a, [hl+]
+    ld [Enemy1Y], a
+    ld a, [hl+]
+    ld [Enemy2X], a
+    ld a, [hl+]
+    ld [Enemy2Y], a
+    ld a, [hl+]
+    ld [Enemy3X], a
     ld a, [hl]
-    ld [EnemyY], a
+    ld [Enemy3Y], a
     ld a, 1
     ld [PlayerX], a
     ld [PlayerPrevX], a
@@ -261,12 +281,34 @@ CheckEnemyCollision:
 
     ld a, [PlayerX]
     ld b, a
-    ld a, [EnemyX]
+    ld a, [Enemy1X]
+    cp b
+    jr nz, .check_enemy2
+    ld a, [PlayerY]
+    ld b, a
+    ld a, [Enemy1Y]
+    cp b
+    jr z, .death
+.check_enemy2:
+    ld a, [PlayerX]
+    ld b, a
+    ld a, [Enemy2X]
+    cp b
+    jr nz, .check_enemy3
+    ld a, [PlayerY]
+    ld b, a
+    ld a, [Enemy2Y]
+    cp b
+    jr z, .death
+.check_enemy3:
+    ld a, [PlayerX]
+    ld b, a
+    ld a, [Enemy3X]
     cp b
     jr nz, .no
     ld a, [PlayerY]
     ld b, a
-    ld a, [EnemyY]
+    ld a, [Enemy3Y]
     cp b
     jr nz, .no
 .death:
@@ -275,14 +317,14 @@ CheckEnemyCollision:
     ret
 
 EnemyPosTable:
-    ; Map1 enemy
-    db 3,3
-    ; Map2 enemy
-    db 10,5
-    ; Map3 enemy
-    db 5,9
-    ; Map4 enemy
-    db 12,9
-    ; Map5 enemy
-    db 8,8
+    ; Map1 enemies
+    db 3,3, 10,7, 16,14
+    ; Map2 enemies
+    db 10,5, 5,11, 17,9
+    ; Map3 enemies
+    db 5,9, 12,4, 15,15
+    ; Map4 enemies
+    db 12,9, 4,10, 17,3
+    ; Map5 enemies
+    db 8,8, 6,13, 14,5
 

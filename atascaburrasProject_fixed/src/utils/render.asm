@@ -141,8 +141,8 @@ RenderFrame::
     ld a, $1B
     ld [rBGP], a             ; red palette for enemy
 
-    ; Draw enemy
-    ld a, [EnemyY]
+    ; Draw enemy 1
+    ld a, [Enemy1Y]
     ld l, a
     ld h, 0
     sla l
@@ -155,7 +155,53 @@ RenderFrame::
     rl h
     sla l
     rl h                    ; HL = 32 * enemy Y
-    ld a, [EnemyX]
+    ld a, [Enemy1X]
+    ld e, a
+    ld d, 0
+    add hl, de
+    ld de, $9800
+    add hl, de
+    ld a, MT_ENEMY
+    ld [hl], a              ; draw enemy tile
+
+    ; Draw enemy 2
+    ld a, [Enemy2Y]
+    ld l, a
+    ld h, 0
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h                    ; HL = 32 * enemy2 Y
+    ld a, [Enemy2X]
+    ld e, a
+    ld d, 0
+    add hl, de
+    ld de, $9800
+    add hl, de
+    ld a, MT_ENEMY
+    ld [hl], a              ; draw enemy tile
+
+    ; Draw enemy 3
+    ld a, [Enemy3Y]
+    ld l, a
+    ld h, 0
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h
+    sla l
+    rl h                    ; HL = 32 * enemy3 Y
+    ld a, [Enemy3X]
     ld e, a
     ld d, 0
     add hl, de
