@@ -22,13 +22,9 @@ InitGameSystem::
     ld [CurrentMapPtr+1], a    ; almacena H en CurrentMapPtr+1
     ld hl, EnemyPosTable
     ld a, [hl+]
-    ld [Enemy1X], a
-    ld a, [hl+]
-    ld [Enemy1Y], a
-    ld a, [hl+]
-    ld [Enemy2X], a
+    ld [EnemyX], a
     ld a, [hl]
-    ld [Enemy2Y], a
+    ld [EnemyY], a
     xor a
     ld [GameOver], a
     ld [MoveCooldown], a
@@ -227,18 +223,13 @@ UpdateDone:
     ld a, [MapIndex]
     ld l, a
     ld h, 0
-    add hl, hl               ; *2 -> bytes per enemy pair
-    add hl, hl               ; *4 -> two pairs per map
+    add hl, hl               ; two bytes per map
     ld de, EnemyPosTable
     add hl, de
     ld a, [hl+]
-    ld [Enemy1X], a
-    ld a, [hl+]
-    ld [Enemy1Y], a
-    ld a, [hl+]
-    ld [Enemy2X], a
+    ld [EnemyX], a
     ld a, [hl]
-    ld [Enemy2Y], a
+    ld [EnemyY], a
     ld a, 1
     ld [PlayerX], a
     ld [PlayerPrevX], a
@@ -270,23 +261,12 @@ CheckEnemyCollision:
 
     ld a, [PlayerX]
     ld b, a
-    ld a, [Enemy1X]
-    cp b
-    jr nz, .check_second
-    ld a, [PlayerY]
-    ld b, a
-    ld a, [Enemy1Y]
-    cp b
-    jr z, .death
-.check_second:
-    ld a, [PlayerX]
-    ld b, a
-    ld a, [Enemy2X]
+    ld a, [EnemyX]
     cp b
     jr nz, .no
     ld a, [PlayerY]
     ld b, a
-    ld a, [Enemy2Y]
+    ld a, [EnemyY]
     cp b
     jr nz, .no
 .death:
@@ -295,14 +275,14 @@ CheckEnemyCollision:
     ret
 
 EnemyPosTable:
-    ; Map1 - two enemies
-    db 3,3, 6,8
-    ; Map2 - two enemies
-    db 10,5, 15,10
-    ; Map3 - one enemy, second unused
-    db 5,9, 0,0
-    ; Map4 - one enemy
-    db 12,9, 0,0
-    ; Map5 - one enemy
-    db 8,8, 0,0
+    ; Map1 enemy
+    db 3,3
+    ; Map2 enemy
+    db 10,5
+    ; Map3 enemy
+    db 5,9
+    ; Map4 enemy
+    db 12,9
+    ; Map5 enemy
+    db 8,8
 

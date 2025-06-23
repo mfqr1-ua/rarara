@@ -139,10 +139,10 @@ RenderFrame::
     ld [hl], a              ; restore background tile
 
     ld a, $1B
-    ld [rBGP], a             ; red palette for enemies
+    ld [rBGP], a             ; red palette for enemy
 
-    ; Draw enemy 1
-    ld a, [Enemy1Y]
+    ; Draw enemy
+    ld a, [EnemyY]
     ld l, a
     ld h, 0
     sla l
@@ -154,38 +154,15 @@ RenderFrame::
     sla l
     rl h
     sla l
-    rl h                    ; HL = 32 * enemy1 Y
-    ld a, [Enemy1X]
+    rl h                    ; HL = 32 * enemy Y
+    ld a, [EnemyX]
     ld e, a
     ld d, 0
     add hl, de
     ld de, $9800
     add hl, de
     ld a, MT_ENEMY
-    ld [hl], a              ; draw enemy 1 tile
-
-    ; Draw enemy 2
-    ld a, [Enemy2Y]
-    ld l, a
-    ld h, 0
-    sla l
-    rl h
-    sla l
-    rl h
-    sla l
-    rl h
-    sla l
-    rl h
-    sla l
-    rl h                    ; HL = 32 * enemy2 Y
-    ld a, [Enemy2X]
-    ld e, a
-    ld d, 0
-    add hl, de
-    ld de, $9800
-    add hl, de
-    ld a, MT_ENEMY
-    ld [hl], a              ; draw enemy 2 tile
+    ld [hl], a              ; draw enemy tile
 
     ld a, $E4
     ld [rBGP], a             ; restore default palette
